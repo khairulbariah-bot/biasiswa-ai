@@ -1,5 +1,35 @@
 [
   {
+    "name": "MARA Young Talent Development Programme (YTP)",
+    "provider": "Majlis Amanah Rakyat (MARA)",
+    "target_group": "Bumiputera SPM Leavers (Special allocation for B40/Rural)",
+    "min_spm_requirements": "Minimum 7A- depending on field (Sponsorship for local & overseas foundation/degree)",
+    "household_income_cap": "Prioritizes B40 & M40 income categories",
+    "coverage": "Full tuition fees, living allowance, flight tickets (for overseas), and laptop allowance",
+    "application_deadline": "7 days after SPM results release",
+    "doc_required": "SPM Result Slip, Parent MyKad, Income Slip / Village Head Endorsement Letter"
+  },
+  {
+    "name": "Yayasan Peneraju Professional Accounting / Tech Schemes",
+    "provider": "Yayasan Peneraju Bumiputera",
+    "target_group": "Bumiputera B40 & Rural Youth pursuing Professional Certifications (ACCA, Data, Tech)",
+    "min_spm_requirements": "5 Credits including Mathematics and Bahasa Melayu",
+    "household_income_cap": "B40 (< RM 4,850) and M40 primary focus",
+    "coverage": "100% Full tuition fees, examination fees, monthly living allowance, and job placement coaching",
+    "application_deadline": "31 July 2026",
+    "doc_required": "SPM Certificate, Household Income Verification, Birth Certificate"
+  },
+  {
+    "name": "MyPAC Professional Accounting Sponsorship",
+    "provider": "Malaysian Professional Accountancy Centre (MyPAC)",
+    "target_group": "B40 & Underprivileged post-SPM students aiming for ACCA / CAT / FIA",
+    "min_spm_requirements": "Minimum 5As including A in Mathematics and English",
+    "household_income_cap": "Strictly B40 households (< RM 4,850/month)",
+    "coverage": "Full tuition fees, ACCA exam fees, hostel accommodation, monthly stipend, and mentoring",
+    "application_deadline": "15 June 2026",
+    "doc_required": "SPM Slip, EA Form / Borang J / Surat Pengesahan Pendapatan Ketua Kampung"
+  },
+  {
     "name": "Biasiswa Program Khas JPA (B40 & Luar Bandar)",
     "provider": "Jabatan Perkhidmatan Awam (JPA)",
     "target_group": "B40 Rural SPM Leavers",
@@ -10,23 +40,13 @@
     "doc_required": "SPM Result Slip, Verification of Income (EA Form / Ketua Kampung Letter)"
   },
   {
-    "name": "Anugerah Pelajaran MARA (B40 Sabah & Sarawak)",
-    "provider": "MARA",
-    "target_group": "Bumiputera B40 (Sabah, Sarawak, Rural Semenanjung)",
-    "min_spm_requirements": "Pass SPM with 3 Credits",
-    "household_income_cap": "RM 5,000 and below",
-    "coverage": "TVET / Diploma tuition waiver + monthly stipend",
-    "application_deadline": "15 August 2026",
-    "doc_required": "MyKad, Household Income Proof, Village Head Endorsement"
-  },
-  {
-    "name": "Biasiswa B40 Yayasan Sarawak / Sabah",
-    "provider": "State Foundation",
-    "target_group": "B40 Students in Sabah & Sarawak",
-    "min_spm_requirements": "3As and above in SPM",
+    "name": "Yayasan Sarawak / Sabah B40 Higher Education Sponsorship",
+    "provider": "State Foundations (Yayasan Negeri)",
+    "target_group": "B40 Students residing in Sabah & Sarawak",
+    "min_spm_requirements": "3As and above in SPM or Pass SPM for TVET entries",
     "household_income_cap": "RM 4,850 and below",
-    "coverage": "Full tuition + semester allowance + travel allowance",
+    "coverage": "Full tuition + semester allowance + flight ticket subsidies",
     "application_deadline": "31 July 2026",
-    "doc_required": "State IC, Household Income Verification"
+    "doc_required": "State IC (K/K status), Household Income Verification, SPM Slip"
   }
 ]
