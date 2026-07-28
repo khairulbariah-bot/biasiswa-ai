@@ -5,7 +5,7 @@ import streamlit.components.v1 as components
 # 1. PAGE CONFIG & MODERN YOUTH-FOCUSED CSS DESIGN
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="BIASISWA-AI 2026 | Comprehensive SPM Scholarship & Funding Matcher", 
+    page_title="SMART-SCHOLAR | Comprehensive SPM Scholarship & Funding Matcher", 
     page_icon="🎓",
     layout="wide"
 )
