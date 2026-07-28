@@ -17,13 +17,13 @@ location = st.sidebar.text_input("Lokasi / Negeri", "Sabah (Keningau)")
 course_track = st.sidebar.selectbox(
     "Pilih Bidang Pengajian / Laluan Kursus", 
     [
-        "Perakuanan Profesional (MyPAC / ACCA / Peneraju)", 
-        "Sains, Kejuruteraan & Teknologi (YTP MARA / JPA)", 
-        "Perubatan & Sains Kesihatan (JPA / MARA)",
-        "Pendidikan & Perguruan (PISMP KPM)",
-        "TVET, Kemahiran & Vokasional (PTPK / MARA)",
-        "Teknoloi Maklumat, AI & Fintech (PayNet / Peneraju)",
-        "Pengajian Umum / IPTA & IPTS (PTPTN / Yayasan Negeri)"
+        "Perakaunan Professional", 
+        "Sains, Kejuruteraan & Teknologi", 
+        "Perubatan & Sains Kesihatan",
+        "Pendidikan & Perguruan",
+        "TVET, Kemahiran & Vokasional",
+        "Teknologi Maklumat, AI & Fintech",
+        "Pengajian Umum / IPTA & IPTS"
     ]
 )
 
@@ -42,7 +42,7 @@ with col2:
 if btn_check:
     st.success(f"**Padanan Pembiayaan Ditemui bagi Bidang '{course_track}' ({income_group}, {location})!**")
     
-    if "Perakuanan" in course_track:
+    if "Perakaunan" in course_track:
         st.markdown("""
         ---
         ### 1. MyPAC Professional Accounting Sponsorship
