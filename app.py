@@ -30,7 +30,7 @@ course_track = st.sidebar.selectbox(
         "Perakaunan Profesional", 
         "Sains, Kejuruteraan & Teknologi", 
         "Perubatan, Farmasi & Sains Kesihatan",
-        "Ekonomi, Perakaunan, Kewangan, Fintech & Perniagaan",
+        "Ekonomi, Kewangan, Fintech & Perniagaan",
         "Pendidikan & Perguruan",
         "TVET, Kemahiran & Vokasional",
         "Media, Seni Reka & Sains Sosial",
