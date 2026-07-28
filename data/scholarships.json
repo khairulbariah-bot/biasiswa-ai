@@ -14,10 +14,10 @@
   {
     "name": "MARA Young Talent Development Programme (YTP)",
     "provider": "Majlis Amanah Rakyat (MARA)",
-    "institution_type": "Public (IPTA), Private (IPTS - KPTM, UniKL) & Overseas",
-    "course_category": "Engineering, IT, Medicine, Accounting, Business, TVET",
+    "institution_type": "Public (IPTA), Private (IPTS - UPTM, UniKL) & Overseas",
+    "course_category": "Engineering, IT, Medicine, Professional Accounting (FIA/ACCA), Accounting, Business, TVET",
     "target_group": "Bumiputera SPM Leavers (Special allocation for B40/Rural)",
-    "min_spm_requirements": "7A- to 9A depending on specialization",
+    "min_spm_requirements": "6A- to 9A depending on specialization",
     "household_income_cap": "B40 and M40 primary focus",
     "coverage": "Convertible Loan (PBU) - Full tuition, monthly stipend, flights (if abroad)",
     "application_deadline": "April 2026",
@@ -74,7 +74,7 @@
   {
     "name": "MyPAC Professional Accounting Sponsorship",
     "provider": "Malaysian Professional Accountancy Centre (MyPAC)",
-    "institution_type": "Private Institutions (IPTS - Sunway, KPTM, INTEC)",
+    "institution_type": "Private Institutions (IPTS - Sunway, UPTM, INTEC)",
     "course_category": "Professional Accounting (ACCA / CAT / FIA)",
     "target_group": "B40 & Underprivileged post-SPM students",
     "min_spm_requirements": "Minimum 5As including A in Mathematics & English",
