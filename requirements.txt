@@ -1,2 +1,1 @@
-streamlit
-gTTS
+pip install streamlit streamlit-mic-recorder gTTS
