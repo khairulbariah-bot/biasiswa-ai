@@ -62,16 +62,14 @@ malaysia_states = [
 ]
 selected_state = st.sidebar.selectbox("Negeri / Lokasi Asal", malaysia_states)
 
-course_track = st.sidebar.selectbox(
-    "Pilih Bidang Pengajian", 
-    [
-        "Perakaunan Profesional", 
-        "Sains, Kejuruteraan & Teknologi", 
-        "Perubatan & Sains Kesihatan",
-        "Pendidikan & Perguruan",
-        "TVET, Kemahiran & Vokasional",
-        "Teknologi Maklumat, AI & Fintech",
-        "Pengajian Umum / IPTA & IPTS"
+course_options_bm = [
+    "Perakuanan Profesional", 
+    "Sains, Kejuruteraan & Teknologi", 
+    "Perubatan & Sains Kesihatan",
+    "Pendidikan & Perguruan",
+    "TVET, Kemahiran & Vokasional",
+    "Teknologi maklumat, AI & Fintech",
+    "Pengajian Umum / IPTA & IPTS (PTPTN / Yayasan Negeri)"
     ]
 
 course_options_en = [
