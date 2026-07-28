@@ -19,8 +19,8 @@ accessibility_mode = st.sidebar.checkbox(
 is_bm = (language == "Bahasa Melayu")
 
 labels = {
-    "title": "🎓 BIASISWA-AI" if is_bm else "🎓 BIASISWA-AI",
-    "subtitle": "(Bantuan Informasi & Akses Biasiswa Pintar)" if is_bm else "(Inclusive Smart Scholarship Platform)",
+    "title": "🎓 BIASISWA-AI (Bantuan Informasi & Akses Biasiswa Pintar)" if is_bm else "🎓 BIASISWA-AI (Inclusive Smart Scholarship Platform)",
+    "subtitle": "Platform Biasiswa Inklusif (Dwibahasa & Mesra OKU Penglihatan) | SDG 4: Quality Education" if is_bm else "Inclusive Scholarship Platform (Bilingual & Visually Impaired Friendly) | SDG 4: Quality Education",
     "profile_header": "📋 Profil Pelajar" if is_bm else "📋 Student Profile",
     "spm_label": "Keputusan SPM (e.g., 5A 2B)" if is_bm else "SPM Results (e.g., 5A 2B)",
     "income_label": "Kategori Pendapatan Isi Rumah" if is_bm else "Household Income Category",
@@ -60,17 +60,16 @@ malaysia_states = [
     "Pulau Pinang", "Perak", "Perlis", "Sabah", "Sarawak", "Selangor", 
     "Terengganu", "Wilayah Persekutuan (KL / Putrajaya / Labuan)"
 ]
-selected_state = st.sidebar.selectbox("Negeri / Lokasi Asal", malaysia_states)
+selected_state = st.sidebar.selectbox(labels["state_label"], malaysia_states)
 
 course_options_bm = [
-    "Perakuanan Profesional", 
+    "Perakaunan Profesional", 
     "Sains, Kejuruteraan & Teknologi", 
     "Perubatan & Sains Kesihatan",
     "Pendidikan & Perguruan",
     "TVET, Kemahiran & Vokasional",
-    "Teknologi maklumat, AI & Fintech",
-    "Pengajian Umum / IPTA & IPTS (PTPTN / Yayasan Negeri)"
-    ]
+    "Pengajian Umum / IPTA & IPTS"
+]
 
 course_options_en = [
     "Professional Accounting", 
@@ -78,7 +77,6 @@ course_options_en = [
     "Medicine & Health Sciences",
     "Education & Teaching",
     "TVET & Vocational Skills",
-    "IT, AI & Fintech",
     "General Studies / Universities"
 ]
 
@@ -103,89 +101,23 @@ if btn_check or audio_recording:
     if is_bm:
         response_text = f"Padanan Biasiswa Ditemui untuk pelajar dari {selected_state} kategori {income_group}. Biasiswa utama termasuk Biasiswa Program Khas JPA, Penajaan Yayasan Peneraju, dan Bantuan Yayasan Negeri {selected_state}."
         st.success(f"**Padanan Pembiayaan Ditemui bagi {selected_state} ({income_group})!**")
-
-        state_foundation = f"Yayasan Negeri {selected_state}"
-    if selected_state == "Sabah":
-        state_foundation = "Yayasan Sabah (Bantuan Tunai Pendaftaran IPT & Biasiswa Kerajaan Negeri Sabah)"
-    elif selected_state == "Sarawak":
-        state_foundation = "Yayasan Sarawak (Biasiswa Pinjaman Anak Sarawak & Inisiatif IPT Free Tuition)"
-    elif selected_state == "Perak":
-        state_foundation = "Yayasan Perak (Bantuan Mahasiswa Anak Perak & Biasiswa Kedoktoran)"
-    elif selected_state == "Johor":
-        state_foundation = "Yayasan Pelajaran Johor (YPJ)"
-    elif selected_state == "Selangor":
-        state_foundation = "Yayasan Selangor (Biasiswa DUA & Peduli IPT)"
-        
         st.markdown(f"""
-       ---
-    ### 1. Bantuan Khusus Negeri: {state_foundation}
-    * **Penyedia:** Kerajaan Negeri {selected_state}
-    * **Kelayakan:** Anak kelahiran atau bermastautin di **{selected_state}**
-    * **Bantuan:** Elaun pendaftaran masuk IPTA/IPTS, Biasiswa Khas B40, dan Insentif Bantuan Komputer
-    * **Dokumen Diperlukan:** Kad Pengenalan (Kod Negeri {selected_state}), Slip SPM, Borang Pengesahan Pendapatan
-    """)
-
-    if "Perakaunan" in course_track:
-        st.markdown("""
         ---
-        ### 2. MyPAC Professional Accounting Sponsorship
-        * **Penyedia:** Malaysian Professional Accountancy Centre (MyPAC)
-        * **Laluan:** CAT / FIA / ACCA Qualification
-        * **Syarat SPM:** Minima 5A (A dalam Matematik & Bahasa Inggeris)
-        * **Bantuan:** 100% Yuran Pengajian & Peperiksaan ACCA + Asrama + Elaun Sara Hidup
+        ### 1. Bantuan Khusus Negeri {selected_state}
+        * **Penyedia:** Kerajaan Negeri {selected_state} / Yayasan Negeri
+        * **Bantuan:** Elaun pendaftaran masuk IPTA/IPTS & Biasiswa Khas B40
         
         ---
-        ### 3. Yayasan Peneraju Pembiayaan Profesional Perakaunan
-        * **Penyedia:** Yayasan Peneraju
-        * **Bantuan:** Yuran penuh, elaun sara hidup, elaun peperiksaan & jaminan kerja
-        """)
-        
-    elif "Sains" in course_track or "Perubatan" in course_track:
-        st.markdown("""
-        ---
-        ### 2. MARA Young Talent Development Programme (YTP)
-        * **Penyedia:** Majlis Amanah Rakyat (MARA)
-        * **Bidang:** Kejuruteraan, Perubatan, Sains Data, Bioteknologi
-        * **Syarat SPM:** 7A- hingga 9A (Mengikut kursus)
-        * **Bantuan:** Pinjaman Boleh Ubah (PBU) MARA (Yuran + Elaun Sara Hidup + Penerbangan)
+        ### 2. MyPAC & Yayasan Peneraju (Perakaunan & Teknologi)
+        * **Penyedia:** Yayasan Peneraju / MyPAC
+        * **Bantuan:** 100% Yuran Pengajian, Elaun Peperiksaan, dan Elaun Sara Hidup Bulanan
         
         ---
-        ### 3. Program Khas Biasiswa JPA (B40 & Luar Bandar)
+        ### 3. Biasiswa Program Khas JPA (B40 & Luar Bandar)
         * **Penyedia:** Jabatan Perkhidmatan Awam (JPA)
         * **Bantuan:** Yuran Penuh + Elaun Sara Hidup (RM800/bulan) + Elaun Laptop
         """)
-        
-    elif "Pendidikan" in course_track:
-        st.markdown("""
-        ---
-        ### 2. Program Ijazah Sarjana Muda Perguruan (PISMP KPM)
-        * **Penyedia:** Kementerian Pendidikan Malaysia (KPM)
-        * **Syarat SPM:** Minima 5A (Lulus ujian UKCG & temuduga)
-        * **Bantuan:** Pengecualian yuran pengajian + Elaun bulanan + **Jaminan Lantikan Guru Kerajaan**
-        """)
-        
-    elif "TVET" in course_track:
-        st.markdown("""
-        ---
-        ### 2. Pinjaman Latihan Kemahiran PTPK (TVET)
-        * **Penyedia:** Perbadanan Tabung Pembangunan Kemahiran (PTPK)
-        * **Syarat SPM:** Lulus SPM / Boleh membaca & menulis (Tiada syarat minima A)
-        * **Bantuan:** Pembiayaan yuran latihan 100% + Elaun sara hidup sehingga RM500/bulan
-        """)
-        
     else:
-        st.markdown("""
-        ---
-        ### 2. Pembiayaan PTPTN (Pengecualian Biasiswa Ijazah Kelas Pertama)
-        * **Penyedia:** PTPTN
-        * **Ciri Khusus B40:** Pembiayaan 100% pinjaman + **Tukar menjadi BIASISWA PERCUMA** jika mendapat Ijazah Sarjana Muda Kelas Pertama.
-        
-        ---
-        ### 3. Biasiswa Corporate Zakat / PayNet Fintech Fund
-        * **Penyedia:** PayNet & Agensi Zakat Negeri
-        * **Bantuan:** Penajaan penuh untuk pelajar B40/Asnaf dalam bidang Teknologi & Pengurusan.
-        """)
-else:
         response_text = f"Scholarship matches found for students from {selected_state} under {income_group} category. Primary sponsorships include JPA Special Program, Yayasan Peneraju, and {selected_state} State Foundation grants."
         st.success(f"**Funding Match Found for {selected_state} ({income_group})!**")
         st.markdown(f"""
@@ -205,7 +137,7 @@ else:
         * **Coverage:** Full Tuition + Monthly Allowance (RM800) + Laptop Allowance
         """)
 
-if accessibility_mode:
+    if accessibility_mode:
         st.write("🔊 **Reading Results Aloud (Text-to-Speech):**" if not is_bm else "🔊 **Membaca Keputusan Secara Audio:**")
         speak_text(response_text, lang_code)
 
