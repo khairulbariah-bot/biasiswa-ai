@@ -205,7 +205,7 @@ else:
         * **Coverage:** Full Tuition + Monthly Allowance (RM800) + Laptop Allowance
         """)
 
-    if accessibility_mode:
+if accessibility_mode:
         st.write("🔊 **Reading Results Aloud (Text-to-Speech):**" if not is_bm else "🔊 **Membaca Keputusan Secara Audio:**")
         speak_text(response_text, lang_code)
 
