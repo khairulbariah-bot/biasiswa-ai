@@ -185,78 +185,25 @@ if btn_check or audio_recording:
         * **Penyedia:** PayNet & Agensi Zakat Negeri
         * **Bantuan:** Penajaan penuh untuk pelajar B40/Asnaf dalam bidang Teknologi & Pengurusan.
         """)
-    else:
+else:
         response_text = f"Scholarship matches found for students from {selected_state} under {income_group} category. Primary sponsorships include JPA Special Program, Yayasan Peneraju, and {selected_state} State Foundation grants."
         st.success(f"**Funding Match Found for {selected_state} ({income_group})!**")
         st.markdown(f"""
         ---
-        ### 1. State Specific Assistance: {state_foundation}
-* **Provider:** State Government {selected_state}
-* **Eligibility:** Children born or residing in **{selected_state}**
-* **Aid:** IPTA/IPTS admission registration allowance, B40 Special Scholarship, and Computer Assistance Incentive
-* **Documents Required:** Identity Card (State Code {selected_state}), SPM Slip, Income Verification Form
-""")
-
-if "Certification" in course_track:
-st.markdown("""
----
-### 2. MyPAC Professional Accounting Sponsorship
-* **Provider:** Malaysian Professional Accountancy Centre (MyPAC)
-* **Path:** CAT / FIA / ACCA Qualification
-* **SPM Requirements:** Minimum 5A (A in Mathematics & English)
-* **Aid:** 100% ACCA Tuition & Examination Fees + Dormitory + Living Allowance
-
----
-### 3. Yayasan Peneraju Accounting Professional Financing
-* **Provider:** Yayasan Peneraju
-* **Grant:** Full fees, living allowance, examination allowance & job guarantee
-""")
-
-elif "Science" in course_track or "Medicine" in course_track:
-st.markdown("""
----
-### 2. MARA Young Talent Development Programme (YTP)
-* **Provider:** Majlis Amanah Rakyat (MARA)
-* **Fields:** Engineering, Medicine, Data Science, Biotechnology
-* **SPM Requirements:** 7A- to 9A (Depending on the course)
-* **Grant:** MARA Convertible Loan (PBU) (Fees + Living Allowance + Flight)
-
----
-### 3. JPA Special Scholarship Programme (B40 & Rural)
-* **Provider:** Public Service Department (JPA)
-* **Grant:** Full Fees + Living Allowance (RM800/month) + Laptop Allowance
-""")
-
-elif "Education" in course_track:
-st.markdown("""
----
-### 2. Bachelor of Teaching Degree Programme (PISMP KPM)
-* **Provider:** Ministry of Education Malaysia (KPM)
-* **SPM Requirements:** Minimum 5A (Pass UKCG test & interview)
-* **Grant:** Tuition fee exemption + Monthly allowance + **Government Teacher Appointment Guarantee**
-""")
-
-elif "TVET" in course_track:
-st.markdown("""
----
-### 2. PTPK Skills Training Loan (TVET)
-* **Provider:** Perbadanan Tabung Pembangunan Kemahiran (PTPK)
-* **SPM Requirements:** Passed SPM / Can read & write (No minimum requirement A)
-* **Grant:** 100% training fee financing + Living allowance up to RM500/month
-""")
-
-else:
-st.markdown("""
----
-### 2. PTPTN Financing (First Class Degree Scholarship Exemption)
-* **Provider:** PTPTN
-* **B40 Special Features:** 100% loan financing + **Convert to FREE SCHOLARSHIP** if you get a First Class Bachelor's Degree.
-
----
-### 3. Corporate Zakat / PayNet Fintech Fund Scholarship
-* **Provider:** PayNet & State Zakat Agency
-* **Benefits:** Full sponsorship for B40/Asnaf students in the fields of Technology & Management.
-""")
+        ### 1. State Foundation Aid: {selected_state}
+        * **Provider:** {selected_state} State Government / Yayasan
+        * **Coverage:** IPT Registration Allowance & B40 Education Grant
+        
+        ---
+        ### 2. MyPAC & Yayasan Peneraju (Accounting & Tech)
+        * **Provider:** Yayasan Peneraju / MyPAC
+        * **Coverage:** 100% Tuition Fees, Examination Fees, and Monthly Living Allowance
+        
+        ---
+        ### 3. JPA Special Scholarship Scheme (B40 & Rural)
+        * **Provider:** Public Service Department (JPA)
+        * **Coverage:** Full Tuition + Monthly Allowance (RM800) + Laptop Allowance
+        """)
 
     if accessibility_mode:
         st.write("🔊 **Reading Results Aloud (Text-to-Speech):**" if not is_bm else "🔊 **Membaca Keputusan Secara Audio:**")
