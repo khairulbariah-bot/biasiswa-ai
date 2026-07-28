@@ -63,7 +63,7 @@ malaysia_states = [
 selected_state = st.sidebar.selectbox("Negeri / Lokasi Asal", malaysia_states)
 
 course_track = st.sidebar.selectbox(
-    "Pilih Bidang Pengajian / Laluan Kursus", 
+    "Pilih Bidang Pengajian", 
     [
         "Perakaunan Profesional", 
         "Sains, Kejuruteraan & Teknologi", 
