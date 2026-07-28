@@ -117,7 +117,7 @@ TRANS = {
         "essay_body": "Saya merupakan anak jati {state} yang bercita-cita tinggi untuk mengejar kelayakan dalam bidang {course} ({inst}). Menginsafi latar belakang keluarga saya dalam kategori {income}, pembiayaan ini adalah pendorong utama yang dapat mengubah garis takdir kewangan keluarga kami. Dengan keputusan SPM {spm}, saya berikrar akan memanfaatkan penajaan ini untuk menjadi profesional berkaliber yang memberi sumbangan bakti kembali kepada negara dan negeri {state}."
     },
     "en": {
-        "hero_title": "SCHOLARSHIP-AI 2026",
+        "hero_title": "SMART-SCHOLAR",
         "hero_sub": "Comprehensive Smart Higher Education Funding Platform for SPM Leavers (Public & Private)",
         "sidebar_header": "SPM Student Profile",
         "spm_label": "SPM Results (Base Grade)",
