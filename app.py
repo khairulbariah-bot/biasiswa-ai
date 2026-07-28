@@ -5,7 +5,7 @@ st.set_page_config(page_title="BIASISWA-AI", page_icon="🎓", layout="wide")
 
 # App Header
 st.title("🎓 BIASISWA-AI (Bantuan Informasi & Akses Biasiswa Pintar)")
-st.caption("Platform Pembiayaan Pintar Pelbagai Bidang Untuk Pelajar B40 & Luar Bandar | SDG 4: Quality Education")
+st.caption("Platform Pembiayaan Pintar Pelbagai Bidang Untuk Pelajar Lepasan SPM")
 
 # Sidebar - Student Details Form
 st.sidebar.header("📋 Profil Pelajar (Student Profile)")
