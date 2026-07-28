@@ -89,7 +89,7 @@ st.markdown("""
 # -----------------------------------------------------------------------------
 TRANS = {
     "bm": {
-        "hero_title": "BIASISWA-AI 2026",
+        "hero_title": "SMART-SCHOLAR",
         "hero_sub": "Platform Pembiayaan Pintar Komprehensif IPTA & IPTS Untuk Pelajar SPM (B40, M40 & Luar Bandar)",
         "sidebar_header": "Profil Pelajar SPM",
         "spm_label": "Keputusan SPM (Gred Asas)",
@@ -480,7 +480,7 @@ user_query = st.chat_input("Taip atau sebut soalan anda (cth: Apakah biasiswa pe
 if user_query:
     st.chat_message("user").write(user_query)
     with st.chat_message("assistant"):
-        st.write(f"**Jawapan BIASISWA-AI (Carian 2026):**")
+        st.write(f"**Jawapan SMART-SCHOLAR (Carian 2026):**")
         st.write(f"Bagi soalan anda *'{user_query}'* untuk bidang **{course_track}** ({selected_state}):")
         st.write("1. **Pilihan Utama IPTA:** Tajaan penuh JPA PIDN, MARA YTP, atau PTPTN (Pengecualian Kelas Pertama).")
         st.write("2. **Pilihan Utama IPTS:** Tajaan khas PETRONAS (UTP), Yayasan Peneraju, MyPAC, Biasiswa Sin Chew/Star, dan Diskaun Merit SPM.")
