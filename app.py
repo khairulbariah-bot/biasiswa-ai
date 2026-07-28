@@ -2,170 +2,154 @@ import streamlit as st
 from gtts import gTTS
 import io
 
-# Page Configuration
-st.set_page_config(page_title="BIASISWA-AI", page_icon="🎓", layout="wide")
+# Set up page layout
+st.set_page_config(page_title="BIASISWA-AI (Accessible)", page_icon="🎓", layout="wide")
 
-# Sidebar - Language & Accessibility Controls First
-st.sidebar.header("🌐 Language / Bahasa")
-language = st.sidebar.radio("Select Language / Pilih Bahasa", ["Bahasa Melayu", "English"], index=0)
-
-st.sidebar.header("♿ Accessibility / Aksesibiliti")
-accessibility_mode = st.sidebar.checkbox(
-    "🔊 Voice Mode & Screen Reader (Mod Suara & Pembaca Skrin)", 
-    value=True
-)
-
-# Language Dictionary Mapping
-is_bm = (language == "Bahasa Melayu")
-
-labels = {
-    "title": "🎓 BIASISWA-AI (Bantuan Informasi & Akses Biasiswa Pintar)" if is_bm else "🎓 BIASISWA-AI (Inclusive Smart Scholarship Platform)",
-    "subtitle": "Platform Biasiswa Inklusif (Dwibahasa & Mesra OKU Penglihatan) | SDG 4: Quality Education" if is_bm else "Inclusive Scholarship Platform (Bilingual & Visually Impaired Friendly) | SDG 4: Quality Education",
-    "profile_header": "📋 Profil Pelajar" if is_bm else "📋 Student Profile",
-    "spm_label": "Keputusan SPM (e.g., 5A 2B)" if is_bm else "SPM Results (e.g., 5A 2B)",
-    "income_label": "Kategori Pendapatan Isi Rumah" if is_bm else "Household Income Category",
-    "state_label": "Negeri Asal" if is_bm else "Home State",
-    "course_label": "Pilih Bidang Pengajian" if is_bm else "Select Field of Study",
-    "voice_header": "🎙️ Arahan Suara (Voice Input for Visually Impaired)" if is_bm else "🎙️ Voice Command (For Visually Impaired Students)",
-    "voice_instructions": "Pelajar kurang upaya penglihatan boleh menekan butang mikrofon di bawah untuk bercakap:" if is_bm else "Visually impaired students can press the microphone icon below to speak:",
-    "mic_placeholder": "Tekan ikon mikrofon dan sebut soalan anda..." if is_bm else "Press the mic icon and state your query...",
-    "btn_check": "🔍 Semak Padanan Biasiswa" if is_bm else "🔍 Check Scholarship Match",
-    "btn_essay": "✍️ Penjana Draf Esei & Audio" if is_bm else "✍️ Generate Essay Draft & Audio",
-    "chat_placeholder": "Taip soalan anda di sini..." if is_bm else "Type your query here..."
-}
-
-# Helper Function: Text-to-Speech (Dynamic Language Support)
-def speak_text(text_to_speak, lang_code):
+# Helper function to convert text to speech audio
+def text_to_speech(text, lang_code):
     try:
-        # 'ms' for Bahasa Melayu, 'en' for English
-        tts = gTTS(text=text_to_speak, lang=lang_code, slow=False)
+        tts = gTTS(text=text, lang=lang_code, slow=False)
         fp = io.BytesIO()
         tts.write_to_fp(fp)
         fp.seek(0)
-        st.audio(fp, format="audio/mp3", autoplay=True)
+        return fp
     except Exception as e:
-        st.warning("Audio engine ready.")
+        return None
+
+# Sidebar - Language Selection & Accessibility Toggle
+st.sidebar.header("⚙️ Accessibility & Language / Aksesibiliti & Bahasa")
+lang = st.sidebar.radio("🌐 Choose Interface Language / Pilih Bahasa:", ["Bahasa Melayu", "English"])
+enable_audio = st.sidebar.checkbox("🔊 Enable Voice Reader (For Blind/Visually Impaired Students)", value=True)
+
+# Language Dictionaries
+if lang == "Bahasa Melayu":
+    title_text = "🎓 SMART-SCHOLAR"
+    caption_text = "Platform Akses Biasiswa"
+    profile_header = "📋 Profil Pelajar"
+    spm_label = "Keputusan SPM (e.g., 5A 2B / 3 Kepujian)"
+    income_label = "Kategori Pendapatan Isi Rumah"
+    state_label = "Negeri / Lokasi Asal"
+    course_label = "Pilih Bidang Pengajian"
+    btn_check_label = "🔍 Semak Padanan Skim Pembiayaan"
+    btn_essay_label = "✍️ Penjana Draf Esei & Justifikasi Kewangan"
+    audio_lang_code = "ms"
+    voice_guide_text = "Sistem membaca maklumat biasiswa secara automatik untuk pembantu suara anda."
+else:
+    title_text = "🎓 BIASISWA-AI (Accessible Smart Scholarship Assistant)"
+    caption_text = "Accessible Financial Scheme Matcher for Visually Impaired & B40 Students | SDG 4 & 10"
+    profile_header = "📋 Student Profile"
+    spm_label = "SPM Results (e.g., 5A 2B / 3 Credits)"
+    income_label = "Household Income Category"
+    state_label = "Home State / Location"
+    course_label = "Select Field of Study"
+    btn_check_label = "🔍 Check Matched Financial Schemes"
+    btn_essay_label = "✍️ Generate Essay Draft & B40 Financial Justification"
+    audio_lang_code = "en"
+    voice_guide_text = "Voice Assistant activated. The system will read matching scholarship details out loud."
 
 # App Header
-st.title(labels["title"])
-st.caption(labels["subtitle"])
+st.title(title_text)
+st.caption(caption_text)
 
-# Student Profile Inputs
-st.sidebar.header(labels["profile_header"])
-spm_results = st.sidebar.text_input(labels["spm_label"], "5A 2B")
-income_group = st.sidebar.selectbox(labels["income_label"], ["B40 (< RM 4,850)", "M40", "T20"])
+if enable_audio:
+    st.info(f"🎙️ **Voice Accessibility Active:** {voice_guide_text}")
 
+# 14 States of Malaysia
 malaysia_states = [
     "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", "Pahang", 
     "Pulau Pinang", "Perak", "Perlis", "Sabah", "Sarawak", "Selangor", 
     "Terengganu", "Wilayah Persekutuan (KL / Putrajaya / Labuan)"
 ]
-selected_state = st.sidebar.selectbox(labels["state_label"], malaysia_states)
 
-course_options_bm = [
-    "Perakaunan Profesional", 
+# Sidebar Student Profile Inputs
+st.sidebar.header(profile_header)
+spm_results = st.sidebar.text_input(spm_label, "5A 2B")
+income_group = st.sidebar.selectbox(income_label, ["B40 (Kurang RM 4,850)", "M40", "T20"])
+selected_state = st.sidebar.selectbox(state_label, malaysia_states)
+
+course_options = [
+    "Perakuanan Profesional", 
     "Sains, Kejuruteraan & Teknologi", 
     "Perubatan & Sains Kesihatan",
     "Pendidikan & Perguruan",
-    "TVET, Kemahiran & Vokasional",
-    "Pengajian Umum / IPTA & IPTS"
-]
-
-course_options_en = [
-    "Professional Accounting", 
-    "Science, Engineering & Tech", 
+    "TVET, Kemahiran & Vokasional"
+] if lang == "Bahasa Melayu" else [
+    "Professional Accounting",
+    "Science, Engineering & Tech",
     "Medicine & Health Sciences",
     "Education & Teaching",
-    "TVET & Vocational Skills",
-    "General Studies / Universities"
+    "TVET & Vocational Skills"
 ]
 
-course_track = st.sidebar.selectbox(labels["course_label"], course_options_bm if is_bm else course_options_en)
+course_track = st.sidebar.selectbox(course_label, course_options)
 
-# Voice Accessibility Section
-st.subheader(labels["voice_header"])
-st.write(labels["voice_instructions"])
-audio_recording = st.audio_input(labels["mic_placeholder"])
+# Interactive Interface
+st.subheader("🤖 Smart Matcher & Audio Voice Output")
 
-# Interactive Buttons
 col1, col2 = st.columns(2)
 with col1:
-    btn_check = st.button(labels["btn_check"])
+    btn_check = st.button(btn_check_label)
 with col2:
-    btn_essay = st.button(labels["btn_essay"])
+    btn_essay = st.button(btn_essay_label)
 
-# Dynamic Content Matching Logic
-lang_code = 'ms' if is_bm else 'en'
-
-if btn_check or audio_recording:
-    if is_bm:
-        response_text = f"Padanan Biasiswa Ditemui untuk pelajar dari {selected_state} kategori {income_group}. Biasiswa utama termasuk Biasiswa Program Khas JPA, Penajaan Yayasan Peneraju, dan Bantuan Yayasan Negeri {selected_state}."
-        st.success(f"**Padanan Pembiayaan Ditemui bagi {selected_state} ({income_group})!**")
-        st.markdown(f"""
-        ---
-        ### 1. Bantuan Khusus Negeri {selected_state}
-        * **Penyedia:** Kerajaan Negeri {selected_state} / Yayasan Negeri
-        * **Bantuan:** Elaun pendaftaran masuk IPTA/IPTS & Biasiswa Khas B40
-        
-        ---
-        ### 2. MyPAC & Yayasan Peneraju (Perakaunan & Teknologi)
-        * **Penyedia:** Yayasan Peneraju / MyPAC
-        * **Bantuan:** 100% Yuran Pengajian, Elaun Peperiksaan, dan Elaun Sara Hidup Bulanan
-        
-        ---
-        ### 3. Biasiswa Program Khas JPA (B40 & Luar Bandar)
-        * **Penyedia:** Jabatan Perkhidmatan Awam (JPA)
-        * **Bantuan:** Yuran Penuh + Elaun Sara Hidup (RM800/bulan) + Elaun Laptop
-        """)
+# Dynamic Matching Logic
+if btn_check:
+    if lang == "Bahasa Melayu":
+        match_summary = f"Padanan Pembiayaan Ditemui bagi {selected_state} untuk kategori {income_group}."
+        scholarship_detail = (
+            f"1. Bantuan Kerajaan Negeri {selected_state}. Biasiswa dan elaun sara hidup bagi anak negeri {selected_state}.\n"
+            f"2. Biasiswa Program Khas JPA & Dermaiswa B40. Penajaan penuh yuran pengajian dan elaun bulanan RM800.\n"
+            f"3. Skim Yayasan Peneraju dan MyPAC. Penajaan penuh yuran dan peperiksaan untuk bidang {course_track}."
+        )
     else:
-        response_text = f"Scholarship matches found for students from {selected_state} under {income_group} category. Primary sponsorships include JPA Special Program, Yayasan Peneraju, and {selected_state} State Foundation grants."
-        st.success(f"**Funding Match Found for {selected_state} ({income_group})!**")
-        st.markdown(f"""
-        ---
-        ### 1. State Foundation Aid: {selected_state}
-        * **Provider:** {selected_state} State Government / Yayasan
-        * **Coverage:** IPT Registration Allowance & B40 Education Grant
-        
-        ---
-        ### 2. MyPAC & Yayasan Peneraju (Accounting & Tech)
-        * **Provider:** Yayasan Peneraju / MyPAC
-        * **Coverage:** 100% Tuition Fees, Examination Fees, and Monthly Living Allowance
-        
-        ---
-        ### 3. JPA Special Scholarship Scheme (B40 & Rural)
-        * **Provider:** Public Service Department (JPA)
-        * **Coverage:** Full Tuition + Monthly Allowance (RM800) + Laptop Allowance
-        """)
+        match_summary = f"Matching Financial Schemes Found for {selected_state} under {income_group} category."
+        scholarship_detail = (
+            f"1. State Foundation Support for {selected_state}. Registration allowance and state student aid.\n"
+            f"2. JPA B40 Special Scholarship. Full tuition waiver and RM800 monthly living stipend.\n"
+            f"3. Yayasan Peneraju & MyPAC Schemes. Full sponsorship for course fees and exams in {course_track}."
+        )
 
-    if accessibility_mode:
-        st.write("🔊 **Reading Results Aloud (Text-to-Speech):**" if not is_bm else "🔊 **Membaca Keputusan Secara Audio:**")
-        speak_text(response_text, lang_code)
+    st.success(match_summary)
+    st.markdown(scholarship_detail)
+
+    # Audio Output Generation for Blind/Visually Impaired Users
+    if enable_audio:
+        full_audio_script = f"{match_summary}. {scholarship_detail}"
+        audio_file = text_to_speech(full_audio_script, audio_lang_code)
+        if audio_file:
+            st.write("🔊 **Audio Voice Reader (Listen Now):**")
+            st.audio(audio_file, format="audio/mp3")
 
 if btn_essay:
-    if is_bm:
-        essay_text = f"Saya merupakan anak jati {selected_state} yang bercita-cita tinggi dalam bidang {course_track}. Berasal daripada keluarga {income_group}, pembiayaan ini adalah pendorong utama untuk mengubah taraf hidup keluarga kami. Dengan keputusan SPM {spm_results}, saya berikrar akan berbakti kembali kepada masyarakat."
+    if lang == "Bahasa Melayu":
+        essay_text = f"Saya merupakan anak jati {selected_state} yang berazam tinggi mengejar cita-cita dalam bidang {course_track}. Walaupun berasal daripada keluarga {income_group}, dengan keputusan SPM {spm_results}, saya berikrar akan memanfaatkan biasiswa ini untuk berbakti semula kepada masyarakat."
     else:
-        essay_text = f"I am a student from {selected_state} with strong aspirations in the field of {course_track}. Coming from a {income_group} household, this scholarship is the key driver to transforming my family's livelihood. With my SPM results of {spm_results}, I pledge to contribute back to society upon graduation."
+        essay_text = f"I am a student from {selected_state} determined to pursue my studies in {course_track}. Coming from a {income_group} household background, securing this scholarship with my SPM result of {spm_results} will allow me to uplift my family and serve the community."
 
-    st.info("✍️ **Draf Esei Permohonan / Essay Draft:**")
+    st.info("✍️ **Generated Personal Statement Draft:**")
     st.write(f"> *\"{essay_text}\"*")
-    
-    if accessibility_mode:
-        st.write("🔊 **Reading Essay Aloud:**" if not is_bm else "🔊 **Membaca Draf Esei Secara Audio:**")
-        speak_text(essay_text, lang_code)
 
-# Chat Input Line
-user_query = st.chat_input(labels["chat_placeholder"])
+    if enable_audio:
+        audio_file = text_to_speech(essay_text, audio_lang_code)
+        if audio_file:
+            st.write("🔊 **Listen to Generated Essay:**")
+            st.audio(audio_file, format="audio/mp3")
+
+# Accessible Chat Input
+user_query = st.chat_input("🎤 Type or Use Screen Reader Voice Command to ask a question...")
 
 if user_query:
     st.chat_message("user").write(user_query)
     
-    if is_bm:
-        answer_text = f"Bagi soalan anda berkenaan biasiswa di {selected_state}, anda layak memohon bantuan JPA, MARA, atau Yayasan Negeri. Pengesahan pendapatan B40 boleh disahkan oleh Ketua Kampung jika tiada slip gaji rasmi."
-    else:
-        answer_text = f"Regarding your query for scholarships in {selected_state}, you are eligible to apply for JPA, MARA, or State Foundation aid. B40 income verification can be endorsed by a Village Head (Ketua Kampung) if formal payslips are unavailable."
-        
+    response_text = (
+        f"BIASISWA-AI: Biasiswa untuk {selected_state} dan bidang {course_track} merangkumi penajaan penuh yuran, asrama, dan elaun sara hidup."
+        if lang == "Bahasa Melayu" else
+        f"BIASISWA-AI: Scholarships for {selected_state} in {course_track} include full tuition waivers, hostel accommodation, and living stipends."
+    )
+    
     with st.chat_message("assistant"):
-        st.write(answer_text)
-        if accessibility_mode:
-            speak_text(answer_text, lang_code)
+        st.write(response_text)
+        if enable_audio:
+            audio_file = text_to_speech(response_text, audio_lang_code)
+            if audio_file:
+                st.audio(audio_file, format="audio/mp3")
