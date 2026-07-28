@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Biasiswa Program Khas JPA (B40 & Luar Bandar)",
+    "provider": "Jabatan Perkhidmatan Awam (JPA)",
+    "target_group": "B40 Rural SPM Leavers",
+    "min_spm_requirements": "5A- including Bahasa Melayu and Sejarah",
+    "household_income_cap": "RM 4,850 and below",
+    "coverage": "Full tuition fee, monthly living allowance (RM800), laptop allowance",
+    "application_deadline": "30 June 2026",
+    "doc_required": "SPM Result Slip, Verification of Income (EA Form / Ketua Kampung Letter)"
+  },
+  {
+    "name": "Anugerah Pelajaran MARA (B40 Sabah & Sarawak)",
+    "provider": "MARA",
+    "target_group": "Bumiputera B40 (Sabah, Sarawak, Rural Semenanjung)",
+    "min_spm_requirements": "Pass SPM with 3 Credits",
+    "household_income_cap": "RM 5,000 and below",
+    "coverage": "TVET / Diploma tuition waiver + monthly stipend",
+    "application_deadline": "15 August 2026",
+    "doc_required": "MyKad, Household Income Proof, Village Head Endorsement"
+  },
+  {
+    "name": "Biasiswa B40 Yayasan Sarawak / Sabah",
+    "provider": "State Foundation",
+    "target_group": "B40 Students in Sabah & Sarawak",
+    "min_spm_requirements": "3As and above in SPM",
+    "household_income_cap": "RM 4,850 and below",
+    "coverage": "Full tuition + semester allowance + travel allowance",
+    "application_deadline": "31 July 2026",
+    "doc_required": "State IC, Household Income Verification"
+  }
+]
