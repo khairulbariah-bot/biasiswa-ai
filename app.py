@@ -80,14 +80,21 @@ if btn_check:
     if "Perakaunan" in course_track:
         st.markdown("""
         ---
-        ### 2. MyPAC Professional Accounting Sponsorship (IPTS - Sunway/INTEC/KPTM)
+       ### 2. MARA Young Talent Development Programme (YTP - Perakaunan Profesional)
+        * **Penyedia:** Majlis Amanah Rakyat (MARA)
+        * **Laluan:** FIA (Foundation in Accountancy) -> ACCA (Kolej Profesional MARA / IPTS Platinum Partner)
+        * **Syarat SPM:** Minima 6A- termasuk Bahasa Inggeris & Matematik
+        * **Bantuan:** Pinjaman Boleh Ubah (PBU) MARA (Yuran Penuh + Elaun Sara Hidup)
+        
+        ---
+        ### 3. MyPAC Professional Accounting Sponsorship (IPTS - Sunway/INTEC/KPTM)
         * **Penyedia:** Malaysian Professional Accountancy Centre (MyPAC)
         * **Laluan:** CAT / FIA / ACCA Qualification
         * **Syarat SPM:** Minima 5A (A dalam Matematik & Bahasa Inggeris)
         * **Bantuan:** 100% Yuran Pengajian & Peperiksaan ACCA + Asrama + Elaun Sara Hidup
         
         ---
-        ### 3. Yayasan Peneraju Pembiayaan Profesional Perakaunan
+        ### 4. Yayasan Peneraju Pembiayaan Profesional Perakaunan
         * **Penyedia:** Yayasan Peneraju Bumiputera
         * **Bantuan:** Yuran penuh, elaun sara hidup, elaun peperiksaan & jaminan penempatan kerja
         """)
