@@ -1,487 +1,410 @@
+import io
 import streamlit as st
-import streamlit.components.v1 as components
+from gtts import gTTS
+from streamlit_mic_recorder import speech_to_text
 
-# -----------------------------------------------------------------------------
-# 1. PAGE CONFIG & MODERN YOUTH-FOCUSED CSS DESIGN
-# -----------------------------------------------------------------------------
+# --- PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="SMART-SCHOLAR | Comprehensive SPM Scholarship & Funding Matcher", 
+    page_title="SMART-SCHOLAR 2026 - Malaysia SPM Higher Education Funding Finder",
     page_icon="🎓",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Custom CSS for SPM Leavers (Modern, Vibrant, High-Contrast & Accessible)
+# --- ACCESSIBILITY CSS STYLING (HIGH CONTRAST & ACCESSIBLE TARGETS) ---
 st.markdown("""
-<style>
-    /* Main Background & Fonts */
-    .stApp {
-        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
-        color: #f8fafc;
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    <style>
+    .stButton > button {
+        font-size: 18px !important;
+        font-weight: bold !important;
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+        min-height: 50px !important;
     }
-    
-    /* Hero Header Banner */
-    .hero-box {
-        background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
-        padding: 2.2rem 2rem;
-        border-radius: 20px;
-        box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.4);
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-    
-    .hero-title {
-        color: #ffffff !important;
-        font-size: 2.3rem !important;
-        font-weight: 800 !important;
-        letter-spacing: -0.025em;
-        margin-bottom: 0.5rem;
-    }
-    
-    .hero-subtitle {
-        color: #e0e7ff !important;
-        font-size: 1.05rem !important;
-        font-weight: 400;
-    }
-
-    /* Card Containers */
     .scholarship-card {
-        background-color: #1e293b;
-        border: 2px solid #334155;
-        border-radius: 16px;
-        padding: 1.5rem;
-        margin-bottom: 1.2rem;
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        border: 2px solid #2e6da4;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #f8f9fa;
     }
-    
-    .scholarship-card:hover, .scholarship-card:focus {
-        transform: translateY(-3px);
-        border-color: #38bdf8;
-        box-shadow: 0 8px 20px rgba(56, 189, 248, 0.2);
-    }
-
-    .badge-tag {
+    .tag {
         display: inline-block;
-        background: #312e81;
-        color: #a5b4fc;
-        padding: 4px 12px;
-        border-radius: 9999px;
-        font-size: 0.82rem;
-        font-weight: 600;
-        margin-bottom: 10px;
+        padding: 4px 10px;
+        margin-right: 5px;
+        border-radius: 5px;
+        font-size: 13px;
+        font-weight: bold;
     }
+    .tag-ipta { background-color: #d1ecf1; color: #0c5460; }
+    .tag-ipts { background-color: #fff3cd; color: #856404; }
+    .tag-gov { background-color: #d4edda; color: #155724; }
+    .tag-corp { background-color: #e2e3e5; color: #383d41; }
+    </style>
+""", unsafe_allow_html=1)
 
-    .badge-provider {
-        background: #065f46;
-        color: #a7f3d0;
+# --- HELPER FUNCTIONS FOR TEXT-TO-SPEECH ---
+def text_to_audio_bytes(text: str, lang: str = "en") -> io.BytesIO:
+    """Converts a given text string into an MP3 audio stream using gTTS."""
+    tts = gTTS(text=text, lang=lang, slow=False)
+    fp = io.BytesIO()
+    tts.write_to_fp(fp)
+    fp.seek(0)
+    return fp
+
+# --- COMPREHENSIVE 2026 MALAYSIA SCHOLARSHIP & LOAN DATABASE FOR SPM LEAVERS ---
+SCHOLARSHIPS_2026 = [
+    # 1. Government & Federal Agencies
+    {
+        "id": "jpa-ppn",
+        "title": "JPA Program Penajaan Nasional (PPN) 2026",
+        "provider": "Jabatan Perkhidmatan Awam (JPA)",
+        "type": "Government Scholarship",
+        "institution_scope": "Overseas / Top Global Universities",
+        "spm_requirement": "Minimum 9A+ in SPM",
+        "coverage": "Full Tuition + Monthly Allowance + Airfare",
+        "description": "Sponsorship for top SPM performers to pursue A-Levels or Foundation leading to premier top-ranked universities worldwide.",
+        "target_group": "Bumiputera & Non-Bumiputera Top Achievers"
+    },
+    {
+        "id": "jpa-jkpj",
+        "title": "JPA Program Khas Jepun, Korea, Perancis & Jerman (JKPJ) 2026",
+        "provider": "Jabatan Perkhidmatan Awam (JPA)",
+        "type": "Government Scholarship",
+        "institution_scope": "Overseas Prep (IPTA / Pre-U Local prior to departure)",
+        "spm_requirement": "Minimum 7A-8A in SPM (Including Math, Add Math, Physics)",
+        "coverage": "Full Tuition + Living Allowance",
+        "description": "Special government sponsorship to prepare SPM leavers for engineering and technical degree programs in Japan, Korea, France, and Germany.",
+        "target_group": "STEM & Engineering Students"
+    },
+    {
+        "id": "mara-ytp",
+        "title": "MARA Young Talent Development Programme (YTP) 2026",
+        "provider": "Majlis Amanah Rakyat (MARA)",
+        "type": "Convertible Loan / Scholarship",
+        "institution_scope": "Public (IPTA) & Private (IPTS) & Overseas",
+        "spm_requirement": "Minimum 7A - 9A in SPM",
+        "coverage": "Full Tuition + Monthly Allowance + Hostel",
+        "description": "Convertible loan sponsorship for Bumiputera SPM leavers pursuing Pre-U, Diploma, or Foundation leading to top local IPTA, IPTS (e.g., UniKL), or overseas studies.",
+        "target_group": "Bumiputera SPM Leavers"
+    },
+    {
+        "id": "ptptn-loan",
+        "title": "PTPTN Education Financing Scheme & First Class Exemption",
+        "provider": "Perbadanan Tabung Pendidikan Tinggi Nasional",
+        "type": "Education Loan / Convertible Scholarship",
+        "institution_scope": "Public (IPTA) & Private (IPTS)",
+        "spm_requirement": "Pass SPM with 3 Credits (Diploma) / Pass SPM for Foundation",
+        "coverage": "RM 4,000 - RM 16,000 per year (Up to 100% for B40)",
+        "description": "Malaysia's most accessible higher education financing scheme. Full loan-to-scholarship conversion (100% waiver) is granted if the student graduates with First Class Honors (CGPA 3.50+ / B40 incentive).",
+        "target_group": "All Malaysian Students (B40, M40, T20)"
+    },
+    {
+        "id": "ptpk-tvet",
+        "title": "PTPK Skills Development Training Loan (TVET)",
+        "provider": "Perbadanan Tabung Pembangunan Kemahiran (PTPK)",
+        "type": "Government TVET Loan Scheme",
+        "institution_scope": "Public & Private TVET Academies / Polytechnics",
+        "spm_requirement": "Pass SPM / SPMV",
+        "coverage": "Full Training Fees + RM 400-500 Monthly Allowance",
+        "description": "Government funding for SPM leavers entering Malaysian Skills Certificate (SKM) and Diploma (DKM) technical/vocational fields.",
+        "target_group": "TVET & Vocational Students"
+    },
+
+    # 2. Major Corporate Foundations
+    {
+        "id": "petronas-pesp",
+        "title": "PETRONAS Education Sponsorship Programme (PESP) 2026",
+        "provider": "PETRONAS",
+        "type": "Corporate Scholarship",
+        "institution_scope": "Universiti Teknologi PETRONAS (UTP) & Top Overseas",
+        "spm_requirement": "Minimum 8A in SPM",
+        "coverage": "Full Tuition + Allowance + Book & Device Allowance",
+        "description": "Prestigious corporate scholarship for SPM leavers pursuing Engineering, Geosciences, Data Science, and Business at UTP or top overseas universities.",
+        "target_group": "High Achievers in STEM & Commercial studies"
+    },
+    {
+        "id": "bnm-kijang",
+        "title": "Bank Negara Malaysia Kijang Scholarship 2026",
+        "provider": "Bank Negara Malaysia (BNM)",
+        "type": "Corporate Scholarship",
+        "institution_scope": "Local Pre-U (KTT) & Overseas First Tier Universities",
+        "spm_requirement": "Minimum 8A+ in SPM",
+        "coverage": "Full Tuition + High Monthly Allowance + Laptop + Career Guarantee",
+        "description": "Awarded to Malaysia's most exceptional SPM talents pursuing Economics, Finance, Actuarial Science, Law, Computer Science, and Data Analytics.",
+        "target_group": "Top SPM Achievers Nationwide"
+    },
+    {
+        "id": "khazanah-watan",
+        "title": "Yayasan Khazanah Global & Watan Scholarship 2026",
+        "provider": "Yayasan Khazanah (Khazanah Nasional)",
+        "type": "Corporate Scholarship",
+        "institution_scope": "Public IPTA & Selected IPTS (e.g. Taylor's, Monash, Sunway)",
+        "spm_requirement": "Minimum 8A / 9A in SPM",
+        "coverage": "Full Tuition Fees + Living Allowance + Leadership Development",
+        "description": "Offers full financial support and structured leadership development for students admitted to local top IPTS or top overseas institutions.",
+        "target_group": "High Leadership Potential & Academic Merit"
+    },
+    {
+        "id": "ytm-scholarship",
+        "title": "Yayasan TM (YTM) Future Leaders Scholarship 2026",
+        "provider": "Yayasan Telekom Malaysia",
+        "type": "Corporate Scholarship",
+        "institution_scope": "Multimedia University (MMU) & Public IPTA",
+        "spm_requirement": "Minimum 6A to 8A in SPM",
+        "coverage": "Full Tuition Fees + Monthly Stipend + Hostel + Internship at TM",
+        "description": "Sponsors SPM leavers to study Foundation or Diploma in Information Technology, Computer Science, AI, Engineering, and Creative Multimedia.",
+        "target_group": "Tech & Multimedia Enthusiasts"
+    },
+    {
+        "id": "shell-scholarship",
+        "title": "Shell Malaysia National Scholarship 2026",
+        "provider": "Shell Malaysia",
+        "type": "Corporate Scholarship",
+        "institution_scope": "Local Pre-U & Top Local/Overseas Universities",
+        "spm_requirement": "Minimum 8As in SPM",
+        "coverage": "Full Tuition + Living Expenses + Internship Opportunities",
+        "description": "Full sponsorship for undergraduate studies in Engineering, Data Science, Geosciences, and Renewable Energy.",
+        "target_group": "STEM SPM Graduates"
+    },
+    {
+        "id": "yuem-scholarship",
+        "title": "Yayasan UEM Global & Local Scholarship 2026",
+        "provider": "UEM Group Berhad",
+        "type": "Corporate Scholarship",
+        "institution_scope": "Kolej Yayasan UEM (KYUEM) & IPTA / IPTS",
+        "spm_requirement": "Minimum 7A - 9A in SPM",
+        "coverage": "Full Boarding School Fees + Tuition + University Allowance",
+        "description": "Covers A-Levels at KYUEM followed by degree studies in Civil Engineering, Mechanical Engineering, IT, Finance, and Business.",
+        "target_group": "All Malaysian SPM Leavers"
+    },
+
+    # 3. State Foundations & Zakat Funds
+    {
+        "id": "ypj-johor",
+        "title": "Pinjaman Boleh Ubah & Biasiswa Yayasan Pelajaran Johor (YPJ)",
+        "provider": "Yayasan Pelajaran Johor",
+        "type": "State Convertible Loan / Scholarship",
+        "institution_scope": "Public IPTA & Kolej YPJ / IPTS",
+        "spm_requirement": "Pass SPM with 5 Credits",
+        "coverage": "RM 5,000 - RM 12,000 per year + Early Admission Aid",
+        "description": "Financial assistance specifically for Johor-born students pursuing Diploma or Degree studies in public or state-recognized IPTS.",
+        "target_group": "Anak Negeri Johor (B40 & M40)"
+    },
+    {
+        "id": "yt-terengganu",
+        "title": "Biasiswa / Pinjaman Pelajaran Yayasan Terengganu 2026",
+        "provider": "Yayasan Terengganu",
+        "type": "State Scholarship & Loan",
+        "institution_scope": "Public IPTA & Selected IPTS",
+        "spm_requirement": "Minimum 6A - 8A in SPM",
+        "coverage": "Full Tuition Fees + Living Allowance + Skim Penyerapan Biasiswa",
+        "description": "Sponsorship and convertible loan schemes for Terengganu-born SPM leavers pursuing Foundation, Diploma, and Bachelor Degrees.",
+        "target_group": "Anak Negeri Terengganu"
+    },
+    {
+        "id": "zakat-maidam",
+        "title": "Bantuan Zakat Pendidikan IPTA/IPTS MAIDAM / LZS",
+        "provider": "Majlis Agama Islam Negeri (MAIDAM / LZS / MAIWP)",
+        "type": "Islamic Zakat Grant (Non-repayable)",
+        "institution_scope": "Public (IPTA) & Private (IPTS)",
+        "spm_requirement": "Pass SPM & Admitted into IPTA/IPTS",
+        "coverage": "RM 1,000 Initial Registration Aid + Full Yearly Tuition",
+        "description": "Direct zakat financial grant for Muslim B40/Asnaf students accepted into Diploma or Degree programs in Malaysia.",
+        "target_group": "Muslim B40 & Asnaf Students"
+    },
+
+    # 4. Private University Merit Waivers (IPTS)
+    {
+        "id": "sunway-merit",
+        "title": "Sunway University & College SPM Merit Scholarship 2026",
+        "provider": "Sunway Education Group",
+        "type": "IPTS Merit Tuition Waiver",
+        "institution_scope": "Sunway University & Sunway College (IPTS)",
+        "spm_requirement": "5A to 9A+ in SPM",
+        "coverage": "20% to 100% Full Tuition Fee Waiver",
+        "description": "Automatic or application-based tuition waivers for SPM leavers entering Foundation, Pre-U (A-Levels, CIMP, MUFY), or Diploma programs at Sunway.",
+        "target_group": "High Achieving SPM Graduates entering IPTS"
+    },
+    {
+        "id": "taylors-merit",
+        "title": "Taylor's University College Excellence & Community Scholarship",
+        "provider": "Taylor's University (IPTS)",
+        "type": "IPTS Tuition Waiver & Scholarship",
+        "institution_scope": "Taylor's University & College (IPTS)",
+        "spm_requirement": "Minimum 6A to 9A in SPM",
+        "coverage": "30% to 100% Tuition Fee Exemption",
+        "description": "Scholarships for top SPM graduates enrolled in Taylor's Foundation, Diploma, or American Degree Transfer Programme (ADTP).",
+        "target_group": "All SPM Leavers entering Taylor's"
+    },
+    {
+        "id": "apu-merit",
+        "title": "Asia Pacific University (APU) Tech Merit Awards 2026",
+        "provider": "APU (Asia Pacific University)",
+        "type": "IPTS Tuition Waiver",
+        "institution_scope": "APU (IPTS)",
+        "spm_requirement": "5A to 10A in SPM",
+        "coverage": "10% to 100% Tuition Fee Reduction",
+        "description": "Merit scholarships for SPM students pursuing Technology, AI, Cybersecurity, Game Development, and Engineering at APU.",
+        "target_group": "IT & Tech Enthusiasts"
+    },
+    {
+        "id": "utar-merit",
+        "title": "UTAR / Tunku Abdul Rahman University Management Merit Scholarship",
+        "provider": "UTAR & TAR UMT",
+        "type": "IPTS Tuition Waiver",
+        "institution_scope": "UTAR & TAR UMT (IPTS)",
+        "spm_requirement": "5A to 9A in SPM",
+        "coverage": "up to 100% Tuition Fee Discount",
+        "description": "Affordable higher education pathway with generous automatic merit fee waivers based on SPM results.",
+        "target_group": "All Malaysian SPM Students"
     }
-
-    /* Accessibility Focus Rings */
-    button:focus, input:focus, select:focus {
-        outline: 3px solid #38bdf8 !important;
-        outline-offset: 2px !important;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# -----------------------------------------------------------------------------
-# 2. BILINGUAL DICTIONARY & COMPREHENSIVE 2026 SCHOLARSHIP DATABASE
-# -----------------------------------------------------------------------------
-TRANS = {
-    "bm": {
-        "hero_title": "SMART-SCHOLAR",
-        "hero_sub": "Platform Pembiayaan Pintar Komprehensif IPTA & IPTS Untuk Pelajar SPM (B40, M40 & Luar Bandar)",
-        "sidebar_header": "Profil Pelajar SPM",
-        "spm_label": "Keputusan SPM (Gred Asas)",
-        "income_label": "Kategori Pendapatan Isi Rumah",
-        "state_label": "Negeri Asal Pelajar",
-        "inst_label": "Jenis Institusi Sasaran",
-        "inst_options": ["Semua (IPTA & IPTS)", "IPTA (Universiti Awam / Politeknik / Matrikulasi / IPG)", "IPTS (Universiti / Kolej Swasta)"],
-        "course_label": "Pilih Bidang Pengajian / Laluan Kursus",
-        "course_options": [
-            "Perakuanan Profesional & Kewangan (MyPAC / ACCA / Peneraju / BNM)",
-            "Sains, Kejuruteraan, Teknologi & AI (PETRONAS / YTP MARA / JPA / YTN / Shell / Gamuda)",
-            "Perubatan, Farmasi & Sains Kesihatan (JPA / MARA / Yayasan UEM / Sime Darby)",
-            "Ekonomi, Business, Fintech & Undang-Undang (Khazanah / BNM / SC / PayNet)",
-            "Pendidikan & Perguruan (PISMP KPM)",
-            "TVET, Kemahiran & Vokasional (PTPK / MARA / ILP / Kolej Komuniti)",
-            "Media, Seni Reka, Komunikasi & Sains Sosial (Star/Sin Chew / IPTS Merit Waivers)",
-            "Pengajian Umum / Mana-mana Kursus IPTA & IPTS (PTPTN / Biasiswa Yayasan Negeri)"
-        ],
-        "main_header": "Padanan Skim Pembiayaan Komprehensif Malaysia 2026",
-        "matching_for": "Sistem sedia memadankan biasiswa, pinjaman boleh ubah, dan bantuan pembiayaan bagi **{course}** ({inst}) untuk pelajar dari **{state}**:",
-        "btn_check": "Semak Semua Padanan Biasiswa 2026",
-        "btn_essay": "Jana Draf Esei Justifikasi Kewangan B40",
-        "match_found": "Padanan Pembiayaan Ditemui bagi Pelajar {state} ({income})!",
-        "essay_title": "Draf Esei Permohonan Pembiayaan (Jana AI Instant):",
-        "essay_body": "Saya merupakan anak jati {state} yang bercita-cita tinggi untuk mengejar kelayakan dalam bidang {course} ({inst}). Menginsafi latar belakang keluarga saya dalam kategori {income}, pembiayaan ini adalah pendorong utama yang dapat mengubah garis takdir kewangan keluarga kami. Dengan keputusan SPM {spm}, saya berikrar akan memanfaatkan penajaan ini untuk menjadi profesional berkaliber yang memberi sumbangan bakti kembali kepada negara dan negeri {state}."
-    },
-    "en": {
-        "hero_title": "SMART-SCHOLAR",
-        "hero_sub": "Comprehensive Smart Higher Education Funding Platform for SPM Leavers (Public & Private)",
-        "sidebar_header": "SPM Student Profile",
-        "spm_label": "SPM Results (Base Grade)",
-        "income_label": "Household Income Category",
-        "state_label": "Home State",
-        "inst_label": "Target Institution Type",
-        "inst_options": ["All (Public & Private)", "Public (Public Universities / Polytechnics / Matriculation / IPG)", "Private (Private Universities / Colleges)"],
-        "course_label": "Select Field of Study / Course Track",
-        "course_options": [
-            "Professional Accounting & Finance (MyPAC / ACCA / Peneraju / BNM)",
-            "Science, Engineering, Tech & AI (PETRONAS / YTP MARA / JPA / YTN / Shell / Gamuda)",
-            "Medicine, Pharmacy & Health Sciences (JPA / MARA / Yayasan UEM / Sime Darby)",
-            "Economics, Business, Fintech & Law (Khazanah / BNM / SC / PayNet)",
-            "Education & Teaching (PISMP KPM)",
-            "TVET, Skills & Vocational (PTPK / MARA / ILP / Community Colleges)",
-            "Media, Design, Communication & Social Sciences (Star/Sin Chew / IPTS Merit Waivers)",
-            "General Studies / Any Course (PTPTN / State Foundation Grants)"
-        ],
-        "main_header": "Comprehensive Malaysia 2026 Funding Matcher",
-        "matching_for": "System ready to match scholarships, convertible loans, and financial aid for **{course}** ({inst}) for students from **{state}**:",
-        "btn_check": "Check All 2026 Scholarship Matches",
-        "btn_essay": "Generate B40 Financial Justification Essay Draft",
-        "match_found": "Funding Matches Found for Student from {state} ({income})!",
-        "essay_title": "Funding Application Essay Draft (Instant AI):",
-        "essay_body": "I am a native student from {state} with high aspirations to pursue qualifications in {course} ({inst}). Understanding my family's financial background in the {income} category, this funding is the primary stepping stone that can transform our family's future. With my SPM results of {spm}, I pledge to utilize this sponsorship to become a high-caliber professional who contributes back to the nation and the state of {state}."
-    }
-}
-
-# Dynamic State Foundations Data Mapping (All 14 States/Territories)
-STATE_FOUNDATIONS = {
-    "Sabah": {
-        "title": "Yayasan Sabah & Bantuan Kerajaan Negeri Sabah (BKNS)",
-        "details": "Bantuan Pendaftaran IPT Tunai (RM2,000 ONE-OFF untuk IPTA/IPTS), Biasiswa Kerajaan Negeri Sabah (BKNS), dan Anugerah Biasiswa Cemerlang Negeri Sabah (ABCNS).",
-        "eligibility": "Anak jati Sabah / Ibu atau bapa lahir di Sabah."
-    },
-    "Sarawak": {
-        "title": "Yayasan Sarawak & Inisiatif IPT Free Tuition",
-        "details": "Biasiswa Pinjaman Anak Sarawak, Bantuan Kemasukan IPT (RM1,200 - RM2,000), serta Program Yuran Percuma IPT (Undergraduate Free Tuition in Swinburne, Curtin, UTS, i-ATS).",
-        "eligibility": "Anak anak Sarawak (KPT K / IC Negeri Sarawak)."
-    },
-    "Perak": {
-        "title": "Yayasan Perak (Bantuan Mahasiswa & Biasiswa Kedoktoran)",
-        "details": "Bantuan Sara Diri dan Pendaftaran IPT (RM500 - RM1,200) serta Biasiswa Pelajaran Yayasan Perak.",
-        "eligibility": "Anak kelahiran Perak atau pemastautin tetap melebihi 10 tahun."
-    },
-    "Johor": {
-        "title": "Yayasan Pelajaran Johor (YPJ)",
-        "details": "Skim Bantuan Pendaftaran IPT YPJ, Biasiswa Kenangan Dato' Onn, dan Pinjaman Pelajaran YPJ (Conversion to Scholarship upon First Class Degree).",
-        "eligibility": "Anak jati Johor (Kod Kad Pengenalan 01/23/24) / Pemastautin Johor."
-    },
-    "Selangor": {
-        "title": "Yayasan Selangor & Peduli IPT",
-        "details": "Hadiah Pengajian IPT (RM1,000 ONE-OFF B40), Biasiswa DUA, dan Pinjaman Boleh Ubah Yayasan Selangor.",
-        "eligibility": "Lahir di Selangor atau pemastautin melebihi 10 tahun."
-    },
-    "Kelantan": {
-        "title": "Yayasan Kelantan Darulnaim (YAKIN) & Tabung Bantuan IPT",
-        "details": "Pinjaman Boleh Ubah YAKIN dan Bantuan Zakat/Baitulmal Kedatangan IPT.",
-        "eligibility": "Anak jati Kelantan."
-    },
-    "Terengganu": {
-        "title": "Yayasan Terengganu (YT)",
-        "details": "Biasiswa Skim Anugerah Sarjana Terengganu, Bantuan Persediaan IPT, dan Pinjaman Boleh Ubah YT.",
-        "eligibility": "Rakyat Terengganu (Ibu/Bapa lahir Terengganu)."
-    },
-    "Kedah": {
-        "title": "Yayasan Kedah & Lembaga Zakat Negeri Kedah (LZNK)",
-        "details": "Bantuan Awal Pengajian IPT LZNK dan Pinjaman Pelajaran Yayasan Kedah.",
-        "eligibility": "Anak Negeri Kedah / Bermastautin di Kedah."
-    },
-    "Pahang": {
-        "title": "Yayasan Pahang (YP)",
-        "details": "Biasiswa Kecemerlangan Yayasan Pahang, Bantuan Awal IPT, dan Pinjaman Boleh Ubah YP.",
-        "eligibility": "Anak jati Pahang."
-    },
-    "Pulau Pinang": {
-        "title": "Tabung Pendidikan Negeri Pulau Pinang (TPNPP) & Penang Future Foundation (PFF)",
-        "details": "Biasiswa Penang Future Foundation (Mutiara & Penang Scholar - Up to 100% Tuition + Monthly Stipend).",
-        "eligibility": "Anak Pulau Pinang / Lulusan SPM di Penang."
-    },
-    "Negeri Sembilan": {
-        "title": "Yayasan Negeri Sembilan (YNS)",
-        "details": "Bantuan Pendaftaran IPTA/IPTS, Biasiswa Anugerah Cemerlang YNS, dan Pinjaman Boleh Ubah.",
-        "eligibility": "Anak Negeri Sembilan."
-    },
-    "Melaka": {
-        "title": "Tabung Amanah Pendidikan Negeri Melaka (TAPEM)",
-        "details": "Bantuan Pendaftaran Pengajian Tinggi TAPEM dan Pinjaman Pengajian Tinggi Melaka.",
-        "eligibility": "Anak kelahiran Melaka."
-    },
-    "Perlis": {
-        "title": "Yayasan Islam Perlis & Majlis Agama Islam Perlis (MAIPs)",
-        "details": "Bantuan Biasiswa IPT MAIPs (Khas B40/Asnaf) dan Bantuan Pendaftaran IPT Yayasan Perlis.",
-        "eligibility": "Anak Perlis."
-    },
-    "Wilayah Persekutuan": {
-        "title": "Majlis Agama Islam Wilayah Persekutuan (MAIWP) & Yayasan Wilayah Persekutuan",
-        "details": "Bantuan Zakat Pendidikan MAIWP (Yuran + Sara Hidup) dan Bantuan Pengajian IPT YWP.",
-        "eligibility": "Bermastautin di WP Kuala Lumpur / Putrajaya / Labuan."
-    }
-}
-
-# -----------------------------------------------------------------------------
-# 3. VOICE COMMAND & AUDIO READ-ALOUD JAVASCRIPT WIDGET
-# -----------------------------------------------------------------------------
-def render_voice_assistant(language_code):
-    """HTML5 Speech Recognition (Voice Input) & Speech Synthesis (Text-to-Speech)"""
-    js_code = f"""
-    <div style="background-color: #1e293b; padding: 15px; border-radius: 12px; border: 2px solid #38bdf8; margin-bottom: 20px;">
-        <p style="color: #f8fafc; font-size: 14px; font-weight: 600; margin-bottom: 10px;">
-            🎙️ <b>Voice Accessibility Helper (Blind & Visually Impaired / Pembantu Suara)</b>
-        </p>
-        <button id="micBtn" onclick="startDictation()" aria-label="Start Voice Input" style="background: #38bdf8; color: #0f172a; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-right: 10px;">
-            🎤 Speak Query (Cakap Soalan)
-        </button>
-        <button id="speakBtn" onclick="readPageContent()" aria-label="Read Output Aloud" style="background: #a855f7; color: #ffffff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; cursor: pointer;">
-            🔊 Read Output Aloud (Dengar Hasil)
-        </button>
-        <p id="speechStatus" style="color: #94a3b8; font-size: 12px; margin-top: 8px;" role="status" aria-live="polite">Status: Ready / Sedia</p>
-    </div>
-
-    <script>
-        function startDictation() {{
-            if (window.hasOwnProperty('webkitSpeechRecognition') || window.hasOwnProperty('SpeechRecognition')) {{
-                var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                var recognition = new SpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = "{'ms-MY' if language_code == 'bm' else 'en-US'}";
-                
-                document.getElementById('speechStatus').innerText = "Listening... Speak now / Sedia mendengar...";
-                recognition.start();
-
-                recognition.onresult = function(e) {{
-                    var textResult = e.results[0][0].transcript;
-                    document.getElementById('speechStatus').innerText = "Heard / Didengar: " + textResult;
-                    window.parent.document.querySelector('textarea[data-testid="stChatInputTextArea"]').value = textResult;
-                }};
-
-                recognition.onerror = function(e) {{
-                    document.getElementById('speechStatus').innerText = "Error: " + e.error;
-                    recognition.stop();
-                }};
-            }} else {{
-                document.getElementById('speechStatus').innerText = "Speech Recognition not supported on this browser. Try Chrome or Edge.";
-            }}
-        }}
-
-        function readPageContent() {{
-            var contentToRead = window.parent.document.querySelector('main').innerText;
-            var synth = window.speechSynthesis;
-            if (synth.speaking) {{
-                synth.cancel();
-                document.getElementById('speechStatus').innerText = "Speech stopped.";
-                return;
-            }}
-            var utterThis = new SpeechSynthesisUtterance(contentToRead.substring(0, 1200)); 
-            utterThis.lang = "{'ms-MY' if language_code == 'bm' else 'en-US'}";
-            synth.speak(utterThis);
-            document.getElementById('speechStatus').innerText = "Reading page content aloud...";
-        }}
-    </script>
-    """
-    components.html(js_code, height=130)
-
-# -----------------------------------------------------------------------------
-# 4. MAIN STREAMLIT APP LOGIC
-# -----------------------------------------------------------------------------
-# Language Selector
-lang_choice = st.sidebar.radio("Bahasa / Language", ["Bahasa Melayu", "English"], index=0)
-lang = "bm" if lang_choice == "Bahasa Melayu" else "en"
-txt = TRANS[lang]
-
-# Hero Banner
-st.markdown(f"""
-    <div class="hero-box">
-        <h1 class="hero-title">🎓 {txt['hero_title']}</h1>
-        <p class="hero-subtitle">{txt['hero_sub']}</p>
-    </div>
-""", unsafe_allow_html=True)
-
-# Voice Assistant Widget
-render_voice_assistant(lang)
-
-# Sidebar Student Profile
-st.sidebar.markdown(f"## 📋 {txt['sidebar_header']}")
-spm_results = st.sidebar.text_input(txt["spm_label"], "5A 2B")
-income_group = st.sidebar.selectbox(txt["income_label"], ["B40 (Kurang/Below RM 4,850)", "M40", "T20"])
-
-malaysia_states = [
-    "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", 
-    "Pahang", "Pulau Pinang", "Perak", "Perlis", "Sabah", 
-    "Sarawak", "Selangor", "Terengganu", "Wilayah Persekutuan"
 ]
-selected_state = st.sidebar.selectbox(txt["state_label"], malaysia_states)
-inst_type = st.sidebar.radio(txt["inst_label"], txt["inst_options"])
-course_track = st.sidebar.selectbox(txt["course_label"], txt["course_options"])
 
-# Main Interactive Interface
-st.markdown(f"## {txt['main_header']}")
-st.write(txt["matching_for"].format(course=course_track, inst=inst_type, state=selected_state))
+# --- APP HEADER ---
+st.title("🎓 SMART-SCHOLAR 2026")
+st.subheader("Voice-Accessible Scholarship, Loan & Financing Finder for SPM Leavers")
+st.markdown(
+    "Welcome to **SMART-SCHOLAR 2026**. This accessible platform connects Malaysian SPM leavers to the latest "
+    "**Government Scholarships (JPA, MARA), Corporate Grants (Petronas, BNM, Khazanah), PTPTN/PTPK Loans, State Zakat Funds, "
+    "and Private University (IPTS) Merit Waivers**."
+)
 
-# Action Buttons
-col1, col2 = st.columns(2)
+st.info("♿ **Accessibility Feature**: Use the microphone button to speak your search, or click the audio buttons to hear search results read aloud.")
+
+st.divider()
+
+# --- SIDEBAR FILTERS ---
+st.sidebar.header("🔍 Filter Funding Options")
+
+scope_filter = st.sidebar.multiselect(
+    "Institution Scope",
+    options=["Public (IPTA)", "Private (IPTS)", "Overseas Prep", "TVET / Polytechnic"],
+    default=[]
+)
+
+type_filter = st.sidebar.multiselect(
+    "Funding Category",
+    options=["Government Scholarship", "Corporate Scholarship", "Convertible Loan / Scholarship", "Education Loan", "IPTS Tuition Waiver", "Islamic Zakat Grant"],
+    default=[]
+)
+
+st.sidebar.markdown("---")
+st.sidebar.caption("SMART-SCHOLAR • Updated for 2026 Malaysia Academic Intake")
+
+# --- VOICE & TEXT INPUT SECTION ---
+st.header("1. Speak or Type Your Search Query")
+
+if "search_query" not in st.session_state:
+    st.session_state["search_query"] = ""
+
+col1, col2 = st.columns([1, 2])
+
 with col1:
-    btn_check = st.button(f"🔍 {txt['btn_check']}", use_container_width=True)
-with col2:
-    btn_essay = st.button(f"✍️ {txt['btn_essay']}", use_container_width=True)
-
-# -----------------------------------------------------------------------------
-# 5. DYNAMIC SCHOLARSHIP MATCHING ENGINE
-# -----------------------------------------------------------------------------
-if btn_check:
-    st.markdown(f"""
-        <div aria-live="polite" role="status" style="margin-top: 15px;">
-            <h3 style="color: #38bdf8;">✅ {txt['match_found'].format(state=selected_state, income=income_group)}</h3>
-        </div>
-    """, unsafe_allow_html=True)
-
-    # 1. State-Specific Foundation Card
-    st_info = STATE_FOUNDATIONS.get(selected_state, {
-        "title": f"Yayasan Negeri {selected_state}",
-        "details": "Bantuan Kemasukan IPTA/IPTS, Biasiswa Negeri, dan Insentif Komputer/Laptop.",
-        "eligibility": f"Anak negeri kelahiran atau pemastautin {selected_state}."
-    })
+    st.write("🎙️ **Voice Search Input:**")
+    st.caption("Click to start speaking (e.g. 'JPA', 'B40', 'Engineering', 'Private University', 'Loan').")
     
-    st.markdown(f"""
-    <div class="scholarship-card" tabindex="0">
-        <span class="badge-tag">Bantuan Khusus Negeri</span>
-        <span class="badge-tag badge-provider">Kerajaan Negeri {selected_state}</span>
-        <h3 style="color: #f8fafc; margin-top: 5px;">1. {st_info['title']}</h3>
-        <p><b>Jenis Bantuan:</b> {st_info['details']}</p>
-        <p><b>Syarat Kelayakan:</b> {st_info['eligibility']}</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # 2. National Universal Schemes (PTPTN & JPA)
-    st.markdown("""
-    <div class="scholarship-card" tabindex="0">
-        <span class="badge-tag">Pembiayaan Persekutuan (Semua Kursus)</span>
-        <span class="badge-tag badge-provider">PTPTN & JPA</span>
-        <h3 style="color: #f8fafc; margin-top: 5px;">2. Skim PTPTN & Program Biasiswa JPA PIDN / Program Khas B40</h3>
-        <p><b>PTPTN Conversion:</b> Pinjaman 100% untuk IPTA & IPTS yang bertukar menjadi <b>BIASISWA PERCUMA 100%</b> sekiranya mendapat Ijazah Sarjana Muda Kelas Pertama.</p>
-        <p><b>JPA PIDN / LSPCN:</b> Penajaan Biasiswa Penuh untuk Pengajian Ijazah Pertama di IPTA awam dan IPTS terpilih (UTP/MMU/UNITEN/Sunway/Taylor's).</p>
-        <p><b>Program Khas JPA B40:</b> Biasiswa penuh yuran + Elaun Sara Hidup RM800+/bulan + Elaun Laptop bagi pelajar B40 & Luar Bandar.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # 3. Track-Specific Expanded Schemes
-    track_idx = txt["course_options"].index(course_track)
-
-    if track_idx == 0:  # Accounting & Finance
-        st.markdown("""
-        <div class="scholarship-card" tabindex="0">
-            <span class="badge-tag">Sponsorship Perakaunan & Kewangan</span>
-            <span class="badge-tag badge-provider">MyPAC / Peneraju / BNM</span>
-            <h3 style="color: #f8fafc; margin-top: 5px;">3. MyPAC, Peneraju Profesional, & Biasiswa Kijang BNM</h3>
-            <p><b>MyPAC Sponsorship:</b> 100% Penajaan yuran tuition & exam ACCA/CAT/FIA + Elaun Sara Hidup + Asrama di IPTS (Sunway, INTEC, KPTM).</p>
-            <p><b>Yayasan Peneraju Perakaunan:</b> Pembiayaan penuh tajaan Bumiputera untuk laluan ACCA / CPA Australia / MICPA.</p>
-            <p><b>Biasiswa Kijang / Bank Negara Malaysia:</b> Biasiswa penuh Pengajian Pre-U & Degree Dalam/Luar Negara bagi SPM minima 8A+.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    elif track_idx == 1:  # STEM, Engineering & AI
-        st.markdown("""
-        <div class="scholarship-card" tabindex="0">
-            <span class="badge-tag">Sains, Kejuruteraan & Teknologi AI</span>
-            <span class="badge-tag badge-provider">PETRONAS / MARA / YTN / Shell / Gamuda</span>
-            <h3 style="color: #f8fafc; margin-top: 5px;">3. PESP PETRONAS, MARA YTP, Tenaga Nasional (YTN), Shell & Gamuda</h3>
-            <p><b>PETRONAS Education Sponsorship (PESP):</b> Penajaan Penuh 100% (Universiti Teknologi PETRONAS / IPTA / Overseas) + Laptop + Elaun Sara Hidup + Penempatan Kerjaya.</p>
-            <p><b>MARA Young Talent Development Programme (YTP):</b> Pinjaman Boleh Ubah (PBU) MARA untuk persediaan Pre-U dan Degree STEM tempatan/luar negara (Syarat SPM 7A- ke atas).</p>
-            <p><b>Yayasan Tenaga Nasional (YTN) & Gamuda Scholarship:</b> Penajaan penuh kursus Kejuruteraan, Computer Science, Data & AI di IPTA & IPTS.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    elif track_idx == 2:  # Medicine & Health
-        st.markdown("""
-        <div class="scholarship-card" tabindex="0">
-            <span class="badge-tag">Perubatan & Sains Kesihatan</span>
-            <span class="badge-tag badge-provider">JPA / MARA / Yayasan UEM / Sime Darby</span>
-            <h3 style="color: #f8fafc; margin-top: 5px;">3. Biasiswa Perubatan JPA, MARA YTP Medical, Yayasan UEM & Sime Darby</h3>
-            <p><b>Program Ijazah Dalam Negara (JPA Medical):</b> Biasiswa penuh pengajian Perubatan, Farmasi & Pergigian di IPTA.</p>
-            <p><b>MARA YTP Perubatan:</b> Pinjaman Boleh Ubah pengajian Perubatan tempatan & luar negara bagi pelajar Bumiputera.</p>
-            <p><b>Yayasan UEM & Sime Darby:</b> Penajaan ikatan perkhidmatan bagi pengajian Sains Kesihatan & Farmasi di IPTA/IPTS utama.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    elif track_idx == 3:  # Business, Fintech & Law
-        st.markdown("""
-        <div class="scholarship-card" tabindex="0">
-            <span class="badge-tag">Ekonomi, Fintech, Perniagaan & Law</span>
-            <span class="badge-tag badge-provider">Yayasan Khazanah / BNM / Securities Commission / PayNet</span>
-            <h3 style="color: #f8fafc; margin-top: 5px;">3. Biasiswa Khazanah Global/Watan, SC, & PayNet B40 Tech Fund</h3>
-            <p><b>Yayasan Khazanah (Global & Watan):</b> Penajaan biasiswa penuh kepimpinan di universiti terkemuka IPTA/IPTS/Luar Negara.</p>
-            <p><b>Securities Commission Malaysia (SC) Scholarship:</b> Biasiswa penuh pengajian Undang-undang, Finance & Fintech.</p>
-            <p><b>PayNet B40 Fintech Fund:</b> Biasiswa tajaan penuh khas pelajar B40 yang menceburi bidang Teknologi Maklumat & Kewangan.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    elif track_idx == 4:  # Education & Teaching
-        st.markdown("""
-        <div class="scholarship-card" tabindex="0">
-            <span class="badge-tag">Pendidikan & Perguruan</span>
-            <span class="badge-tag badge-provider">KPM (Kementerian Pendidikan Malaysia)</span>
-            <h3 style="color: #f8fafc; margin-top: 5px;">3. Biasiswa Perguruan Persekutuan (PISMP KPM)</h3>
-            <p><b>Program Ijazah Sarjana Muda Perguruan (PISMP):</b> Pengecualian 100% Yuran Pengajian di Institut Pendidikan Guru (IPG) + Elaun Sara Hidup Bulanan RM430+ + <b>Jaminan Lantikan Pegawai Perkhidmatan Pendidikan (Guru Kerajaan Gred DG41)</b> setelah tamat pengajian.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    elif track_idx == 5:  # TVET & Vocational
-        st.markdown("""
-        <div class="scholarship-card" tabindex="0">
-            <span class="badge-tag">TVET & Vokasional</span>
-            <span class="badge-tag badge-provider">PTPK / MARA TVET / ILP</span>
-            <h3 style="color: #f8fafc; margin-top: 5px;">3. Pinjaman Latihan Kemahiran PTPK & Bantuan MARA TVET</h3>
-            <p><b>Perbadanan Tabung Pembangunan Kemahiran (PTPK):</b> Pembiayaan 100% Yuran Latihan Kemahiran di Pusat Bertauliah Awam/Swasta + Elaun Sara Hidup RM500/bulan + Elaun Pengangkutan.</p>
-            <p><b>Syarat Kemasukan:</b> Boleh membaca, menulis dan berminat (Tiada syarat minima kredit SPM A/B required).</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    elif track_idx == 6:  # Media & IPTS Waivers
-        st.markdown("""
-        <div class="scholarship-card" tabindex="0">
-            <span class="badge-tag">Media, Seni & IPTS Waivers</span>
-            <span class="badge-tag badge-provider">Sin Chew / Star Education Fund / IPTS Merit</span>
-            <h3 style="color: #f8fafc; margin-top: 5px;">3. Sin Chew Daily, Star Education Fund & IPTS Merit Scholarships</h3>
-            <p><b>Sin Chew / Star Education Fund:</b> Pengecualian Yuran Pengajian Swasta 50% hingga 100% di Taylor's, Sunway, APU, UTAR, MMU, Monash Malaysia & Curtin.</p>
-            <p><b>IPTS SPM Merit Discount:</b> Pengecualian yuran automatik mengikut jumlah A SPM (e.g., 5A = 30%, 7A = 50%, 9A = 100% Full Waiver).</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    else:  # General Studies
-        st.markdown("""
-        <div class="scholarship-card" tabindex="0">
-            <span class="badge-tag">Pembiayaan Am & Zakat</span>
-            <span class="badge-tag badge-provider">Zakat Negeri & NGO</span>
-            <h3 style="color: #f8fafc; margin-top: 5px;">3. Skim Bantuan Zakat Pendidikan IPT & Bantuan Dermasiswa</h3>
-            <p><b>Zakat Pendidikan (Asnaf/B40):</b> Bantuan sara hidup bulanan + yuran pendaftaran penuh melalui Agensi Zakat Negeri masing-masing.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-# -----------------------------------------------------------------------------
-# 6. ESSAY DRAFT GENERATOR & CHAT BOT
-# -----------------------------------------------------------------------------
-if btn_essay:
-    st.markdown(f"### {txt['essay_title']}")
-    essay = txt["essay_body"].format(
-        state=selected_state, 
-        course=course_track, 
-        inst=inst_type, 
-        income=income_group, 
-        spm=spm_results
+    # Audio Recording & Speech Recognition Component
+    spoken_text = speech_to_text(
+        language='en',
+        start_prompt="🔴 Start Recording Voice",
+        stop_prompt="⏹️ Stop & Process",
+        just_once=True,
+        key='voice_input'
     )
-    st.info(essay)
+    
+    if spoken_text:
+        st.session_state["search_query"] = spoken_text
 
-# Chat Assistant Box
-st.markdown("---")
-user_query = st.chat_input("Taip atau sebut soalan anda (cth: Apakah biasiswa perubatan atau kejuruteraan IPTA/IPTS yang sesuai untuk saya?)...")
+with col2:
+    st.write("⌨️ **Text Search Input:**")
+    user_query = st.text_input(
+        label="Type search terms or SPM grades (e.g., '9A', 'Petronas', 'Johor', 'B40', 'Diploma')",
+        value=st.session_state["search_query"],
+        key="text_query_input"
+    )
+    st.session_state["search_query"] = user_query
 
-if user_query:
-    st.chat_message("user").write(user_query)
-    with st.chat_message("assistant"):
-        st.write(f"**Jawapan SMART-SCHOLAR (Carian 2026):**")
-        st.write(f"Bagi soalan anda *'{user_query}'* untuk bidang **{course_track}** ({selected_state}):")
-        st.write("1. **Pilihan Utama IPTA:** Tajaan penuh JPA PIDN, MARA YTP, atau PTPTN (Pengecualian Kelas Pertama).")
-        st.write("2. **Pilihan Utama IPTS:** Tajaan khas PETRONAS (UTP), Yayasan Peneraju, MyPAC, Biasiswa Sin Chew/Star, dan Diskaun Merit SPM.")
-        st.write(f"3. **Inisiatif Negeri {selected_state}:** Sila pastikan anda mendaftar borang bantuan kemasukan awal IPT di bawah **{STATE_FOUNDATIONS.get(selected_state, {}).get('title', 'Yayasan Negeri')}**.")
+st.divider()
+
+# --- FILTERING LOGIC ---
+raw_query = st.session_state["search_query"].strip().lower()
+
+filtered_list = []
+
+for item in SCHOLARSHIPS_2026:
+    # 1. Scope filter match
+    if scope_filter:
+        scope_match = any(s.lower() in item["institution_scope"].lower() or s.lower() in item["description"].lower() for s.lower() in scope_filter)
+        if not scope_match:
+            continue
+            
+    # 2. Type filter match
+    if type_filter:
+        if item["type"] not in type_filter:
+            continue
+            
+    # 3. Query text match
+    if raw_query:
+        searchable_blob = f"{item['title']} {item['provider']} {item['type']} {item['institution_scope']} {item['spm_requirement']} {item['coverage']} {item['description']} {item['target_group']}".lower()
+        if raw_query not in searchable_blob:
+            continue
+            
+    filtered_list.append(item)
+
+# --- DISPLAY RESULTS AND TEXT-TO-SPEECH ---
+st.header("2. Matching 2026 Funding Opportunities")
+
+st.write(f"Displaying **{len(filtered_list)}** funding options out of {len(SCHOLARSHIPS_2026)} available schemes.")
+
+if not filtered_list:
+    no_results_msg = f"No scholarship or loan scheme found matching '{st.session_state['search_query']}'. Please try adjusting your filters or search terms."
+    st.warning(no_results_msg)
+    
+    # Audio output for empty results
+    audio_fp = text_to_audio_bytes(no_results_msg)
+    st.audio(audio_fp, format="audio/mp3")
+
+else:
+    # Compile Audio Summary for Blind / Visually Impaired Students
+    summary_text = f"Found {len(filtered_list)} matching funding opportunities for SPM leavers. "
+    for idx, sch in enumerate(filtered_list[:5], 1): # summarize top 5 in overall voice
+        summary_text += f"Option {idx}: {sch['title']} provided by {sch['provider']}. Requirement: {sch['spm_requirement']}. Coverage: {sch['coverage']}. "
+    
+    if len(filtered_list) > 5:
+        summary_text += f"And {len(filtered_list) - 5} more options listed below."
+
+    st.subheader("🔊 Voice Summary (For Visually Impaired Students)")
+    st.caption("Click play to hear the search results read aloud:")
+    audio_stream = text_to_audio_bytes(summary_text)
+    st.audio(audio_stream, format="audio/mp3")
+
+    st.markdown("---")
+
+    # Display Individual Result Cards
+    for idx, sch in enumerate(filtered_list, 1):
+        st.markdown(f"""
+        <div class="scholarship-card">
+            <h2>{idx}. {sch['title']}</h2>
+            <p><strong>Provider:</strong> {sch['provider']}</p>
+            <p><strong>Category:</strong> <span class="tag tag-gov">{sch['type']}</span></p>
+            <p><strong>Institution Scope:</strong> {sch['institution_scope']}</p>
+            <p><strong>SPM Requirement:</strong> 🥇 <code>{sch['spm_requirement']}</code></p>
+            <p><strong>Funding Coverage:</strong> 💰 {sch['coverage']}</p>
+            <p><strong>Target Group:</strong> {sch['target_group']}</p>
+            <p>{sch['description']}</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Audio Player for individual scholarship card
+        item_speech = (
+            f"Option {idx}: {sch['title']}. Provider: {sch['provider']}. "
+            f"SPM Requirement: {sch['spm_requirement']}. Coverage: {sch['coverage']}. {sch['description']}"
+        )
+        item_audio = text_to_audio_bytes(item_speech)
+        
+        st.audio(item_audio, format="audio/mp3")
+        st.markdown("<br>", unsafe_allow_html=True)
+
+# --- FOOTER ---
+st.caption("SMART-SCHOLAR 2026 • Inclusive & Accessible Higher Education Financing Portal for SPM Graduates")
