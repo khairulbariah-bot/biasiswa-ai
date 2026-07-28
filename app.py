@@ -15,7 +15,7 @@ location = st.sidebar.text_input("Lokasi / Negeri", "Sabah (Keningau)")
 interest = st.sidebar.selectbox(
     "Bidang Minat & Laluan", 
     [
-        "Perakuanan Profesional (MyPAC / ACCA / CAT)", 
+        "Perakaunan Profesional (MyPAC / ACCA / CAT)", 
         "Sains, Teknologi & Kejuruteraan (YTP MARA / Peneraju)", 
         "TVET & Sijil Kemahiran (MARA / Yayasan State)", 
         "Perubatan & Sains Kesihatan",
