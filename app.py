@@ -92,7 +92,7 @@ if "voice_input_text" not in st.session_state:
     st.session_state.voice_input_text = ""
 
 @st.cache_data
-def load_scholarships():
+def scholarships.json():
     try:
         with open("scholarships.json", "r", encoding="utf-8") as f:
             return json.load(f)
@@ -100,7 +100,7 @@ def load_scholarships():
         st.error("Missing scholarships.json dataset.")
         return []
 
-scholarships_data = load_scholarships()
+scholarships_data = scholarships.json()
 
 # List Options
 STATES = [
