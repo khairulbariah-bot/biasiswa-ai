@@ -15,10 +15,14 @@ st.set_page_config(
 # 1. OFFICIAL VERIFIED WORKING URL DICTIONARY
 # ---------------------------------------------------------
 OFFICIAL_URLS = {
+    # Professional Accountancy Portals
+    "PENERAJU": "https://peneraju.org/",
+    "MYPAC": "https://mypac.org.my/our-programmes/mypac-acca-programme/",
+    
     # Federal & Government Portals
     "PTPTN": "https://www.ptptn.gov.my/",
-    "BKOKU": "https://bkoku.mohe.gov.my/",               # Verified active official KPT portal
-    "KPT_BKPKK": "https://www.mohe.gov.my/perkhidmatan/penajaan-pendidikan-tinggi", # Official KPT portal
+    "BKOKU": "https://bkoku.mohe.gov.my/",               
+    "KPT_BKPKK": "https://www.mohe.gov.my/perkhidmatan/penajaan-pendidikan-tinggi", 
     "JPA": "https://bmfbm.jpa.gov.my/",
     "MARA": "https://www.mara.gov.my/en/education/education-financing/",
     
@@ -104,6 +108,34 @@ def load_all_174_scholarships():
       },
       {
         "id": 3,
+        "name": "Yayasan Peneraju Professional Accountancy Scheme (ACCA / MICPA / ICAEW / CPA)",
+        "provider": "Yayasan Peneraju Pendidikan Bumiputera",
+        "category": "Government",
+        "target_income": ["B40", "M40"],
+        "is_oku_friendly": True,
+        "states": ["All States"],
+        "courses": ["Perakaunan Professional", "Finance & Accounting"],
+        "requirements": {"min_a": 5, "min_credits": 5, "min_passes": 5},
+        "funding_details": "Full funding / interest-free convertible financing covering tuition fees, exam fees, registration, and living allowance.",
+        "deadline": "2026-09-30",
+        "url": OFFICIAL_URLS["PENERAJU"]
+      },
+      {
+        "id": 4,
+        "name": "MyPAC FIA-ACCA Sponsorship & Professional Accountancy Programme",
+        "provider": "Malaysia Professional Accountancy Centre (MyPAC)",
+        "category": "Corporate",
+        "target_income": ["B40", "M40"],
+        "is_oku_friendly": True,
+        "states": ["All States"],
+        "courses": ["Perakaunan Professional", "Finance & Accounting"],
+        "requirements": {"min_a": 5, "min_credits": 5, "min_passes": 5},
+        "funding_details": "Full sponsorship covering FIA & ACCA tuition fees, examination fees, learning materials, and soft skills development.",
+        "deadline": "2026-09-30",
+        "url": OFFICIAL_URLS["MYPAC"]
+      },
+      {
+        "id": 5,
         "name": "Biasiswa Cagamas Scholarship Programme",
         "provider": "Cagamas Berhad",
         "category": "Corporate",
@@ -117,7 +149,7 @@ def load_all_174_scholarships():
         "url": OFFICIAL_URLS["Cagamas"]
       },
       {
-        "id": 4,
+        "id": 6,
         "name": "Bantuan Kewangan KPT – Kluster B40 & M40 (BKPKK)",
         "provider": "Kementerian Pendidikan Tinggi (KPT)",
         "category": "Government",
@@ -131,7 +163,7 @@ def load_all_174_scholarships():
         "url": OFFICIAL_URLS["KPT_BKPKK"]
       },
       {
-        "id": 5,
+        "id": 7,
         "name": "Bantuan Zakat Pendidikan IPTA / IPTS MAIDAM",
         "provider": "Majlis Agama Islam dan Adat Melayu Terengganu",
         "category": "Zakat",
@@ -145,7 +177,7 @@ def load_all_174_scholarships():
         "url": OFFICIAL_URLS["Zakat_Terengganu"]
       },
       {
-        "id": 6,
+        "id": 8,
         "name": "Biasiswa TVET Madani & Kemahiran Sijil/Diploma",
         "provider": "Kolej Yayasan Negeri Sembilan",
         "category": "State Government",
@@ -159,7 +191,7 @@ def load_all_174_scholarships():
         "url": OFFICIAL_URLS["Negeri Sembilan"]
       },
       {
-        "id": 7,
+        "id": 9,
         "name": "Pinjaman Boleh Ubah PTPTN / Skim Bantuan Am SPM",
         "provider": "PTPTN / Kementerian Pendidikan Tinggi",
         "category": "Government",
@@ -173,7 +205,7 @@ def load_all_174_scholarships():
         "url": OFFICIAL_URLS["PTPTN"]
       },
       {
-        "id": 8,
+        "id": 10,
         "name": "Bantuan Elaun Khas OKU (BKOKU KPT)",
         "provider": "Kementerian Pendidikan Tinggi",
         "category": "Government",
@@ -194,7 +226,7 @@ def load_all_174_scholarships():
     state_cycle = STATES
     course_list_cycle = COURSES[1:]
     
-    current_id = 9
+    current_id = 11
     
     # Dynamically inject state foundation programs with official state links
     for state in STATES:
@@ -206,7 +238,7 @@ def load_all_174_scholarships():
             "target_income": ["B40", "M40"],
             "is_oku_friendly": True,
             "states": [state],
-            "courses": ["All Courses", "Engineering", "Medicine", "IT & Computer Science"],
+            "courses": ["All Courses", "Engineering", "Medicine", "IT & Computer Science", "Perakaunan Professional"],
             "requirements": {"min_a": 0 if current_id % 2 == 0 else 3, "min_credits": 3, "min_passes": 3},
             "funding_details": f"Pinjaman boleh ubah / Biasiswa penuh pengajian tinggi anak negeri {state}.",
             "deadline": "2026-08-31",
@@ -295,7 +327,7 @@ TEXT = {
         "lang_select": "🌐 Pilih Bahasa / Language",
         "theme_toggle": "👁️ Mod Kontras Tinggi OKU",
         "voice_nav_title": "🎙️ Kawalan Suara Interaktif",
-        "voice_nav_help": "Tekan 'Mula Rakaman Suara' dan sebut frasa seperti 'Selangor', 'B40', atau 'Teknikal'.",
+        "voice_nav_help": "Tekan 'Mula Rakaman Suara' dan sebut frasa seperti 'Selangor', 'B40', atau 'Perakaunan'.",
         "state_label": "📍 Negeri Asal Candidate (14 Negeri)",
         "course_label": "📚 Bidang Pengajian Diminati",
         "income_label": "💰 Kategori Pendapatan Isi Rumah",
@@ -328,7 +360,7 @@ TEXT = {
         "lang_select": "🌐 Select Language / Pilih Bahasa",
         "theme_toggle": "👁️ OKU High-Contrast Mode",
         "voice_nav_title": "🎙️ Interactive Voice Control",
-        "voice_nav_help": "Click 'Start Voice Input' and speak phrases like 'Selangor', 'B40', or 'Engineering'.",
+        "voice_nav_help": "Click 'Start Voice Input' and speak phrases like 'Selangor', 'B40', or 'Accounting'.",
         "state_label": "📍 Candidate Hometown State (14 States)",
         "course_label": "📚 Preferred Course of Study",
         "income_label": "💰 Household Income Category",
@@ -511,15 +543,15 @@ with st.sidebar:
     st.divider()
 
     candidate_state = st.selectbox(t["state_label"], options=STATES, index=11)
-    candidate_course = st.selectbox(t["course_label"], options=COURSES, index=0)
+    candidate_course = st.selectbox(t["course_label"], options=COURSES, index=3)  # Default: Perakaunan Professional
     candidate_income = st.radio(t["income_label"], options=INCOME_CATS, index=0, horizontal=True)
     is_oku = st.checkbox(t["oku_label"], value=False)
 
     st.subheader(t["spm_section"])
-    count_a = st.number_input(t["grade_a_label"], min_value=0, max_value=12, value=2)
+    count_a = st.number_input(t["grade_a_label"], min_value=0, max_value=12, value=5)
     count_b = st.number_input(t["grade_b_label"], min_value=0, max_value=12, value=2)
-    count_c = st.number_input(t["grade_c_label"], min_value=0, max_value=12, value=2)
-    count_de = st.number_input(t["grade_de_label"], min_value=0, max_value=12, value=1)
+    count_c = st.number_input(t["grade_c_label"], min_value=0, max_value=12, value=1)
+    count_de = st.number_input(t["grade_de_label"], min_value=0, max_value=12, value=0)
     count_g = st.number_input(t["grade_g_label"], min_value=0, max_value=12, value=0)
 
     total_as = count_a
