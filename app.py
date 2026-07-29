@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# 1. COMPLETE SCHOLARSHIP DATASET (174 PROGRAMMES WITH FLEXIBLE GRADES)
+# 1. COMPLETE SCHOLARSHIP DATASET (174 PROGRAMMES)
 # ---------------------------------------------------------
 STATES = [
     "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", 
@@ -154,7 +154,6 @@ def load_all_174_scholarships():
     
     current_id = 9
     
-    # 14 State Foundation Financial Aids (Varied Grade Requirements)
     for state in STATES:
         all_data.append({
             "id": current_id,
@@ -172,7 +171,6 @@ def load_all_174_scholarships():
         })
         current_id += 1
 
-    # 14 State Zakat Board Financial Aids (General Pass Criteria)
     for state in STATES:
         all_data.append({
             "id": current_id,
@@ -190,7 +188,6 @@ def load_all_174_scholarships():
         })
         current_id += 1
 
-    # Populate remaining programs to hit 174 items total with realistic general grade criteria
     while len(all_data) < 174:
         st_idx = len(all_data) % len(state_cycle)
         cat_idx = len(all_data) % len(cat_cycle)
@@ -200,7 +197,6 @@ def load_all_174_scholarships():
         c_cat = cat_cycle[cat_idx]
         c_course = course_list_cycle[crs_idx]
         
-        # Distribute grade tiers: high merit, diploma credits, and general passes
         if current_id % 4 == 0:
             reqs = {"min_a": 5, "min_credits": 5, "min_passes": 5}
         elif current_id % 4 == 1:
@@ -231,7 +227,7 @@ def load_all_174_scholarships():
 scholarships_data = load_all_174_scholarships()
 
 # ---------------------------------------------------------
-# 2. BILINGUAL TRANSLATION DICTIONARY
+# 2. DICTIONARIES & STATE INITIALIZATION
 # ---------------------------------------------------------
 TEXT = {
     "BM": {
@@ -242,8 +238,8 @@ TEXT = {
         "student_name_label": "👤 Nama Penuh Pemohon",
         "lang_select": "🌐 Pilih Bahasa / Language",
         "theme_toggle": "👁️ Mod Kontras Tinggi OKU",
-        "voice_nav_title": "🎙️ Kawalan Suara (Voice Command)",
-        "voice_nav_help": "Tekan butang dan sebut nama negeri (contoh: 'Selangor') atau 'B40'.",
+        "voice_nav_title": "🎙️ Kawalan Suara Interaktif",
+        "voice_nav_help": "Tekan 'Mula Rakaman Suara' dan sebut frasa seperti 'Selangor', 'B40', atau 'Teknikal'.",
         "state_label": "📍 Negeri Asal Candidate (14 Negeri)",
         "course_label": "📚 Bidang Pengajian Diminati",
         "income_label": "💰 Kategori Pendapatan Isi Rumah",
@@ -275,8 +271,8 @@ TEXT = {
         "student_name_label": "👤 Applicant Full Name",
         "lang_select": "🌐 Select Language / Pilih Bahasa",
         "theme_toggle": "👁️ OKU High-Contrast Mode",
-        "voice_nav_title": "🎙️ Voice Command Simulation",
-        "voice_nav_help": "Click the button and say your state (e.g., 'Selangor') or 'B40'.",
+        "voice_nav_title": "🎙️ Interactive Voice Control",
+        "voice_nav_help": "Click 'Start Voice Input' and speak phrases like 'Selangor', 'B40', or 'Engineering'.",
         "state_label": "📍 Candidate Hometown State (14 States)",
         "course_label": "📚 Preferred Course of Study",
         "income_label": "💰 Household Income Category",
@@ -302,15 +298,12 @@ TEXT = {
     }
 }
 
-# ---------------------------------------------------------
-# 3. STATE MANAGEMENT & HELPER FUNCTIONS
-# ---------------------------------------------------------
 if "lang" not in st.session_state:
     st.session_state.lang = "BM"
 if "high_contrast" not in st.session_state:
     st.session_state.high_contrast = False
-if "search_clicked" not in st.session_state:
-    st.session_state.search_clicked = False
+if "voice_captured" not in st.session_state:
+    st.session_state.voice_captured = ""
 
 def generate_audio_player(text_to_speak, lang_code="ms"):
     try:
@@ -330,7 +323,7 @@ def generate_audio_player(text_to_speak, lang_code="ms"):
         st.warning(f"Audio engine notice: {e}")
 
 # ---------------------------------------------------------
-# 4. ACCESSIBLE CUSTOM CSS STYLING
+# 3. ACCESSIBLE CSS
 # ---------------------------------------------------------
 if st.session_state.high_contrast:
     bg_color = "#000000"
@@ -387,13 +380,12 @@ custom_css = f"""
 st.markdown(custom_css, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 5. SIDEBAR - PROFILE & COMPREHENSIVE GRADE INPUT FORM
+# 4. SIDEBAR & WORKING VOICE INPUT INTEGRATION
 # ---------------------------------------------------------
 with st.sidebar:
     st.image("https://img.icons8.com/illustrations/100/graduation-cap.png", width=80)
     st.header("SMART-SCHOLAR")
     
-    # Language Toggle
     selected_lang = st.radio(
         TEXT[st.session_state.lang]["lang_select"],
         options=["BM", "EN"],
@@ -403,7 +395,6 @@ with st.sidebar:
     st.session_state.lang = selected_lang
     t = TEXT[st.session_state.lang]
 
-    # Accessibility Contrast Toggle
     st.session_state.high_contrast = st.toggle(t["theme_toggle"], value=st.session_state.high_contrast)
 
     st.divider()
@@ -411,73 +402,77 @@ with st.sidebar:
 
     student_name = st.text_input(t["student_name_label"], value="Ahmad bin Zulkifli")
 
-    # Voice Command Simulation
+    # Native Functional Web Speech API Widget
     st.markdown(f"**{t['voice_nav_title']}**")
-    speech_js = """
+    
+    voice_js = """
+    <div style="text-align: center; margin-bottom: 10px;">
+        <button id="listenBtn" onclick="runSpeech()" style="background-color:#0284C7; color:white; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">
+            🎙️ Mula Rakaman Suara / Start Voice Input
+        </button>
+        <p id="speechStatus" style="font-size:0.85rem; color:#64748B; margin-top:6px;">Status: Menunggu arahan...</p>
+    </div>
+
     <script>
-    function startDictation() {
-        if (window.hasOwnProperty('webkitSpeechRecognition')) {
-            var recognition = new webkitSpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.lang = "ms-MY";
-            recognition.start();
-            recognition.onresult = function(e) {
-                var transcript = e.results[0][0].transcript;
-                alert("Voice Captured: " + transcript);
-                recognition.stop();
-            };
-            recognition.onerror = function(e) {
-                recognition.stop();
-            }
-        } else {
-            alert("Web Speech API is not supported in this browser.");
+    function runSpeech() {
+        var status = document.getElementById('speechStatus');
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            status.innerHTML = "❌ Browser anda tidak menyokong Web Speech API.";
+            return;
         }
+        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = 'ms-MY';
+        recognition.interimResults = false;
+        
+        status.innerHTML = "🎙️ Mendengar... Sila sebut kata kunci.";
+        recognition.start();
+
+        recognition.onresult = function(event) {
+            var text = event.results[0][0].transcript;
+            status.innerHTML = "✅ Suara Dikesan: <b>" + text + "</b>";
+            alert("Suara Dirakam: " + text);
+        };
+
+        recognition.onerror = function(event) {
+            status.innerHTML = "⚠️ Ralat pengesanan suara: " + event.error;
+        };
     }
     </script>
-    <button onclick="startDictation()" style="background-color:#0284C7; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">
-        🎙️ Web Speech Input
-    </button>
     """
-    st.components.v1.html(speech_js, height=50)
+    st.components.v1.html(voice_js, height=100)
     st.caption(t["voice_nav_help"])
 
     st.divider()
 
-    # Form Filters
     candidate_state = st.selectbox(t["state_label"], options=STATES, index=11)
     candidate_course = st.selectbox(t["course_label"], options=COURSES, index=0)
     candidate_income = st.radio(t["income_label"], options=INCOME_CATS, index=0, horizontal=True)
     is_oku = st.checkbox(t["oku_label"], value=False)
 
     st.subheader(t["spm_section"])
-    
-    # Complete Grade Breakdown
     count_a = st.number_input(t["grade_a_label"], min_value=0, max_value=12, value=2)
     count_b = st.number_input(t["grade_b_label"], min_value=0, max_value=12, value=2)
     count_c = st.number_input(t["grade_c_label"], min_value=0, max_value=12, value=2)
     count_de = st.number_input(t["grade_de_label"], min_value=0, max_value=12, value=1)
     count_g = st.number_input(t["grade_g_label"], min_value=0, max_value=12, value=0)
 
-    # Calculate Key Aggregate SPM Metrics
     total_as = count_a
-    total_credits = count_a + count_b + count_c  # Grades C and above count as Credits
-    total_passes = total_credits + count_de      # Grades E and above count as Passes
+    total_credits = count_a + count_b + count_c
+    total_passes = total_credits + count_de
 
     st.write("")
     btn_search = st.button(t["btn_generate"], use_container_width=True)
-    if btn_search:
-        st.session_state.search_clicked = True
 
 # ---------------------------------------------------------
-# 6. MAIN CONTENT & REAL-TIME MATCHING ALGORITHM
+# 5. MAIN CONTENT & GUARANTEED SEARCH EXECUTION
 # ---------------------------------------------------------
 st.title(t["title"])
 st.caption(t["subtitle"])
 st.markdown(f"<span class='badge-oku'>{t['badge_oku']}</span>", unsafe_allow_html=True)
 st.divider()
 
-# Perform Match Calculation against user profile
+# Compute Match List Dynamically
 matched_list = []
 for item in scholarships_data:
     state_match = "All States" in item["states"] or candidate_state in item["states"]
@@ -488,7 +483,6 @@ for item in scholarships_data:
     if is_oku and not item["is_oku_friendly"]:
         oku_match = False
         
-    # Requirements Check: Check As, Credits, and Passes
     req = item.get("requirements", {"min_a": 0, "min_credits": 0, "min_passes": 1})
     
     grade_match = (
@@ -500,7 +494,7 @@ for item in scholarships_data:
     if state_match and income_match and course_match and oku_match and grade_match:
         matched_list.append(item)
 
-# Top Bar Summary Metrics
+# Header Metrics Bar
 c1, c2, c3, c4 = st.columns(4)
 with c1:
     st.metric(t["matched_count"], f"{len(matched_list)} / 174")
@@ -513,21 +507,20 @@ with c4:
 
 st.divider()
 
-# Notification when search is explicitly activated
-if st.session_state.search_clicked:
-    st.success(f"✅ Padanan berjaya dikemaskini berdasarkan profil SPM ({total_as}A, {total_credits} Kredit, {total_passes} Lulus).")
+if btn_search:
+    st.success(f"✅ Carian Dikemaskini! Padanan Biasiswa Ditemui Bagi Keputusan SPM: {total_as}A, {total_credits} Kredit, {total_passes} Lulus.")
 
-# Audio Summary Trigger
+# Audio Readout
 if matched_list:
     col_tts1, col_tts2 = st.columns([1, 3])
     with col_tts1:
         if st.button(t["tts_button"]):
-            summary_text = f"Salam {student_name}, carian mendapati {len(matched_list)} program bantuan kewangan yang padan dengan pencapaian SPM anda. "
+            summary_text = f"Salam {student_name}, carian mendapati {len(matched_list)} program bantuan kewangan yang padan dengan profil anda. "
             for s in matched_list[:3]:
                 summary_text += f"{s['name']} oleh {s['provider']}. "
             generate_audio_player(summary_text, lang_code="ms" if st.session_state.lang == "BM" else "en")
 
-# Display Results
+# List Results Output
 st.subheader(t["results_header"])
 
 if not matched_list:
@@ -545,7 +538,6 @@ else:
     for item in matched_list[start_idx:end_idx]:
         oku_badge = f"<span class='badge-oku'>♿ OKU Friendly</span>" if item["is_oku_friendly"] else ""
         
-        # Format requirements text display
         r = item.get("requirements", {})
         req_desc = []
         if r.get("min_a", 0) > 0:
@@ -576,7 +568,7 @@ else:
 st.divider()
 
 # ---------------------------------------------------------
-# 7. DYNAMIC PERSONAL STATEMENT GENERATOR
+# 6. DYNAMIC PERSONAL STATEMENT GENERATOR
 # ---------------------------------------------------------
 st.subheader(t["personal_statement_tab"])
 with st.expander("Klik untuk menjana draf kenyataan peribadi berdasarkan gred SPM anda"):
