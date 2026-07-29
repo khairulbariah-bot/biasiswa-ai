@@ -38,7 +38,7 @@ OFFICIAL_URLS = {
     "Pulau Pinang": "https://e-biasiswa.penang.gov.my/",
     "Sabah": "https://biasiswa.sabah.gov.my/",
     "Sarawak": "https://yayasansarawak.org.my/",
-    "Selangor": "https://danapendidikan.selangor.gov.my/",
+    "Selangor": "https://tkis.selangor.gov.my/",
     "Terengganu": "https://yt.gov.my/",
     "Wilayah Persekutuan": "https://www.kwp.gov.my/",
 
@@ -67,12 +67,11 @@ STATES = [
     "Sarawak", "Selangor", "Terengganu", "Wilayah Persekutuan"
 ]
 
-# Course translation mappings (Key = System Code, Value = {BM, EN})
+# Specific Course translation mappings ONLY (NO "All Courses" Option)
 COURSE_TRANSLATIONS = {
-    "ALL": {"BM": "Semua Bidang", "EN": "All Courses"},
-    "ENG": {"BM": "Kejuruteraan", "EN": "Engineering"},
-    "FIN": {"BM": "Kewangan & Perakaunan", "EN": "Finance & Accounting"},
     "ACCT_PROF": {"BM": "Perakaunan Professional", "EN": "Professional Accountancy"},
+    "FIN": {"BM": "Kewangan & Perakaunan", "EN": "Finance & Accounting"},
+    "ENG": {"BM": "Kejuruteraan", "EN": "Engineering"},
     "IT": {"BM": "Sains Komputer & IT", "EN": "IT & Computer Science"},
     "MED": {"BM": "Perubatan & Sains Kesihatan", "EN": "Medicine & Health Sciences"},
     "TVET": {"BM": "Teknikal & Vokasional (TVET)", "EN": "Technical & Vocational (TVET)"},
@@ -181,7 +180,7 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40"],
         "is_oku_friendly": True,
         "states": ["All States"],
-        "courses": ["TVET", "ALL"],
+        "courses": ["TVET", "ENG", "IT"],
         "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
         "funding_details": {
             "BM": "Elaun bulanan RM300 - RM360 sepanjang tempoh pengajian di Kolej Komuniti & Politeknik.",
@@ -198,7 +197,7 @@ def load_all_174_scholarships():
         "target_income": ["B40"],
         "is_oku_friendly": True,
         "states": ["Terengganu"],
-        "courses": ["ALL", "ISLAMIC"],
+        "courses": ["ISLAMIC", "EDU", "LAW"],
         "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
         "funding_details": {
             "BM": "Bantuan pendaftaran IPT *one-off* + bantuan yuran pengajian untuk pelajar B40 beragama Islam.",
@@ -232,7 +231,7 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40", "T20"],
         "is_oku_friendly": True,
         "states": ["All States"],
-        "courses": ["ALL"],
+        "courses": ["ACCT_PROF", "FIN", "ENG", "IT", "MED", "TVET", "ISLAMIC", "LAW", "COMM", "BUILT", "EDU"],
         "requirements": {"min_a": 0, "min_credits": 3, "min_passes": 3},
         "funding_details": {
             "BM": "Pembiayaan pendidikan meliputi yuran pengajian diploma/ijazah & elaun sara hidup bulanan.",
@@ -249,7 +248,7 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40", "T20"],
         "is_oku_friendly": True,
         "states": ["All States"],
-        "courses": ["ALL"],
+        "courses": ["ACCT_PROF", "FIN", "ENG", "IT", "MED", "TVET", "ISLAMIC", "LAW", "COMM", "BUILT", "EDU"],
         "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
         "funding_details": {
             "BM": "Bantuan kewangan khas RM300/bulan (RM3,600/tahun) bagi pelajar OKU berdaftar.",
@@ -264,7 +263,6 @@ def load_all_174_scholarships():
     
     cat_cycle = ["State Government", "Zakat", "Corporate", "Government"]
     course_keys = list(COURSE_TRANSLATIONS.keys())
-    course_keys.remove("ALL")
     
     current_id = 11
     
@@ -278,7 +276,7 @@ def load_all_174_scholarships():
             "target_income": ["B40", "M40"],
             "is_oku_friendly": True,
             "states": [state],
-            "courses": ["ALL", "ENG", "MED", "IT", "ACCT_PROF"],
+            "courses": ["ENG", "MED", "IT", "ACCT_PROF", "FIN", "LAW"],
             "requirements": {"min_a": 0 if current_id % 2 == 0 else 3, "min_credits": 3, "min_passes": 3},
             "funding_details": {
                 "BM": f"Pinjaman boleh ubah / Biasiswa penuh pengajian tinggi anak negeri {state}.",
@@ -300,7 +298,7 @@ def load_all_174_scholarships():
             "target_income": ["B40"],
             "is_oku_friendly": True,
             "states": [state],
-            "courses": ["ALL", "ISLAMIC"],
+            "courses": ["ISLAMIC", "EDU", "LAW", "ACCT_PROF"],
             "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
             "funding_details": {
                 "BM": f"Bantuan pendaftaran IPT & sara hidup bagi golongan asnaf / B40 negeri {state}.",
@@ -347,7 +345,7 @@ def load_all_174_scholarships():
             "target_income": ["B40", "M40"] if current_id % 2 == 0 else ["B40", "M40", "T20"],
             "is_oku_friendly": True if current_id % 3 != 0 else False,
             "states": [c_state] if current_id % 4 == 0 else ["All States"],
-            "courses": [c_course_key, "ALL"],
+            "courses": [c_course_key],
             "requirements": reqs,
             "funding_details": {
                 "BM": "Bantuan yuran pengajian, elaun buku, dan elaun sara hidup bulanan.",
@@ -377,7 +375,7 @@ TEXT = {
         "voice_nav_title": "🎙️ Kawalan Suara Interaktif",
         "voice_nav_help": "Tekan 'Mula Rakaman Suara' dan sebut frasa seperti 'Selangor', 'B40', atau 'Perakaunan'.",
         "state_label": "📍 Negeri Asal Pemohon (14 Negeri)",
-        "course_label": "📚 Bidang Pengajian Diminati",
+        "course_label": "📚 Bidang Pengajian Khusus",
         "income_label": "💰 Kategori Pendapatan Isi Rumah",
         "oku_label": "♿ Adakah anda Pemegang Kad OKU?",
         "spm_section": "📊 Keputusan SPM Keseluruhan (Gred A - E)",
@@ -387,7 +385,7 @@ TEXT = {
         "grade_de_label": "Gred D, E (Lulus / Pass)",
         "grade_g_label": "Gred G (Gagal)",
         "btn_generate": "🔍 CARI BIASISWA SAYA",
-        "results_header": "🎯 Hasil Padanan Biasiswa & Pembiayaan",
+        "results_header": "🎯 Hasil Padanan Biasiswa & Pembiayaan Khusus Bidang",
         "matched_count": "Padanan Ditemui",
         "tts_button": "🔊 Baca Senarai Ini (Text-to-Speech)",
         "apply_button": "🌐 Layari Portal Rasmi Permohonan",
@@ -395,7 +393,7 @@ TEXT = {
         "courses_label": "Kursus Dibenarkan",
         "funding_label": "Skop Bantuan",
         "req_label": "Syarat SPM",
-        "no_results": "Tiada bantuan yang padan secara tepat. Cuba sesuaikan kriteria carian anda.",
+        "no_results": "Tiada bantuan yang padan secara tepat untuk bidang ini. Cuba sesuaikan kriteria carian anda.",
         "personal_statement_tab": "✍️ Penjana Draf Kenyataan Peribadi (Personal Statement)",
         "generate_statement_btn": "Jana Draf Kenyataan Peribadi",
     },
@@ -410,7 +408,7 @@ TEXT = {
         "voice_nav_title": "🎙️ Interactive Voice Control",
         "voice_nav_help": "Click 'Start Voice Input' and speak phrases like 'Selangor', 'B40', or 'Accounting'.",
         "state_label": "📍 Candidate Hometown State (14 States)",
-        "course_label": "📚 Preferred Course of Study",
+        "course_label": "📚 Specific Course of Study",
         "income_label": "💰 Household Income Category",
         "oku_label": "♿ Are you a registered OKU cardholder?",
         "spm_section": "📊 Complete SPM Results Breakdown (Grades A - E)",
@@ -420,7 +418,7 @@ TEXT = {
         "grade_de_label": "Grades D, E (Pass)",
         "grade_g_label": "Grades G (Unclassified)",
         "btn_generate": "🔍 GENERATE MATCHING SCHOLARSHIPS",
-        "results_header": "🎯 Matched Financial Aid & Scholarships",
+        "results_header": "🎯 Matched Financial Aid & Field-Specific Scholarships",
         "matched_count": "Scholarships Matched",
         "tts_button": "🔊 Read List Out Loud (Text-to-Speech)",
         "apply_button": "🌐 Visit Official Application Portal",
@@ -428,7 +426,7 @@ TEXT = {
         "courses_label": "Applicable Courses",
         "funding_label": "Funding Coverage",
         "req_label": "SPM Requirement",
-        "no_results": "No exact aid match found. Try adjusting your search criteria.",
+        "no_results": "No exact aid match found for this specific course. Try adjusting your search criteria.",
         "personal_statement_tab": "✍️ Personal Statement Draft Generator",
         "generate_statement_btn": "Generate Personal Statement Draft",
     }
@@ -592,7 +590,7 @@ with st.sidebar:
 
     candidate_state = st.selectbox(t["state_label"], options=STATES, index=11)
     
-    # Dynamic Course Options Based on Selected Language
+    # Dynamic Specific Course Options Based on Selected Language
     course_options_dict = {
         code: data[st.session_state.lang] 
         for code, data in COURSE_TRANSLATIONS.items()
@@ -601,7 +599,7 @@ with st.sidebar:
     selected_course_label = st.selectbox(
         t["course_label"], 
         options=list(course_options_dict.values()), 
-        index=3  # Default: Professional Accountancy / Perakaunan Professional
+        index=0  # Default: Professional Accountancy / Perakaunan Professional
     )
     
     # Map back selected localized label to internal course code
@@ -640,7 +638,8 @@ for item in scholarships_data:
     state_match = "All States" in item["states"] or candidate_state in item["states"]
     income_match = candidate_income in item["target_income"]
     
-    course_match = (candidate_course_code == "ALL") or ("ALL" in item["courses"]) or (candidate_course_code in item["courses"])
+    # STRICT EXACT COURSE MATCH ONLY (NO WILD CARD 'ALL')
+    course_match = candidate_course_code in item["courses"]
     
     oku_match = True
     if is_oku and not item["is_oku_friendly"]:
@@ -671,16 +670,16 @@ with c4:
 st.divider()
 
 if btn_search:
-    st.success(f"✅ Filter Updated! Matches found for SPM results: {total_as}A, {total_credits} Credits, {total_passes} Passes.")
+    st.success(f"✅ Filter Updated! Exact matches found for [{selected_course_label}] with SPM results: {total_as}A, {total_credits} Credits, {total_passes} Passes.")
 
 if matched_list:
     col_tts1, col_tts2 = st.columns([1, 3])
     with col_tts1:
         if st.button(t["tts_button"]):
             summary_text = (
-                f"Salam {student_name}, carian mendapati {len(matched_list)} program bantuan kewangan yang padan dengan profil anda."
+                f"Salam {student_name}, carian mendapati {len(matched_list)} program bantuan kewangan yang padan khusus bagi bidang {selected_course_label}."
                 if st.session_state.lang == "BM" else
-                f"Hello {student_name}, search found {len(matched_list)} financial aid programs matching your profile."
+                f"Hello {student_name}, search found {len(matched_list)} financial aid programs matching specifically for {selected_course_label}."
             )
             generate_audio_player(summary_text, lang_code="ms" if st.session_state.lang == "BM" else "en")
 
