@@ -5,7 +5,7 @@ from gtts import gTTS
 
 # Page Configuration
 st.set_page_config(
-    page_title="SMART-SCHOLAR | Biasiswa SPM 2026",
+    page_title="SMART-SCHOLAR",
     page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -365,7 +365,7 @@ scholarships_data = load_all_174_scholarships()
 # ---------------------------------------------------------
 TEXT = {
     "BM": {
-        "title": "🎓 SMART-SCHOLAR MALAYSIA 2026",
+        "title": "🎓 SMART-SCHOLAR",
         "subtitle": "Portal Pembiayaan & Biasiswa Inklusif (Padanan Keputusan SPM Semua Gred)",
         "badge_oku": "♿ Terbuka Kepada Semua Gred (A+, A, B, C, D, E)",
         "sidebar_header": "⚙️ Tetapan & Profil Pelajar",
@@ -398,7 +398,7 @@ TEXT = {
         "generate_statement_btn": "Jana Draf Kenyataan Peribadi",
     },
     "EN": {
-        "title": "🎓 SMART-SCHOLAR MALAYSIA 2026",
+        "title": "🎓 SMART-SCHOLAR",
         "subtitle": "Inclusive Scholarship & Financial Aid Portal (All SPM Grade Match)",
         "badge_oku": "♿ Accessible for All Grades (A+, A, B, C, D, E)",
         "sidebar_header": "⚙️ Settings & Student Profile",
