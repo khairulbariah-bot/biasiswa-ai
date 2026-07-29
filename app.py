@@ -38,7 +38,7 @@ OFFICIAL_URLS = {
     "Pulau Pinang": "https://e-biasiswa.penang.gov.my/",
     "Sabah": "https://biasiswa.sabah.gov.my/",
     "Sarawak": "https://yayasansarawak.org.my/",
-    "Selangor": "https://tkis.selangor.gov.my/",
+    "Selangor": "https://danapendidikan.selangor.gov.my/tkwbns/pembiayaan-pendidikan/pbudn/",
     "Terengganu": "https://yt.gov.my/",
     "Wilayah Persekutuan": "https://www.kwp.gov.my/",
 
