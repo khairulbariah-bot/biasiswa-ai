@@ -67,11 +67,21 @@ STATES = [
     "Sarawak", "Selangor", "Terengganu", "Wilayah Persekutuan"
 ]
 
-COURSES = [
-    "All Courses", "Engineering", "Finance & Accounting", "Perakaunan Professional", 
-    "IT & Computer Science", "Medicine", "Technical & Vocational (TVET)", 
-    "Islamic Studies", "Law", "Mass Communication", "Built Environment", "Education"
-]
+# Course translation mappings (Key = System Code, Value = {BM, EN})
+COURSE_TRANSLATIONS = {
+    "ALL": {"BM": "Semua Bidang", "EN": "All Courses"},
+    "ENG": {"BM": "Kejuruteraan", "EN": "Engineering"},
+    "FIN": {"BM": "Kewangan & Perakaunan", "EN": "Finance & Accounting"},
+    "ACCT_PROF": {"BM": "Perakaunan Professional", "EN": "Professional Accountancy"},
+    "IT": {"BM": "Sains Komputer & IT", "EN": "IT & Computer Science"},
+    "MED": {"BM": "Perubatan & Sains Kesihatan", "EN": "Medicine & Health Sciences"},
+    "TVET": {"BM": "Teknikal & Vokasional (TVET)", "EN": "Technical & Vocational (TVET)"},
+    "ISLAMIC": {"BM": "Pengajian Islam", "EN": "Islamic Studies"},
+    "LAW": {"BM": "Undang-Undang", "EN": "Law"},
+    "COMM": {"BM": "Komunikasi Massa", "EN": "Mass Communication"},
+    "BUILT": {"BM": "Alam Bina & Ukur", "EN": "Built Environment"},
+    "EDU": {"BM": "Pendidikan", "EN": "Education"}
+}
 
 INCOME_CATS = ["B40", "M40", "T20"]
 
@@ -86,9 +96,12 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40"],
         "is_oku_friendly": True,
         "states": ["All States"],
-        "courses": ["Engineering", "Quantity Surveying", "Finance & Accounting", "Perakaunan Professional", "IT & Computer Science", "Built Environment"],
+        "courses": ["ENG", "BUILT", "FIN", "ACCT_PROF", "IT"],
         "requirements": {"min_a": 7, "min_credits": 7, "min_passes": 7},
-        "funding_details": "Full tuition fees, monthly living allowance, laptop subsidy, and book allowances.",
+        "funding_details": {
+            "BM": "Yuran pengajian penuh, elaun sara hidup bulanan, subsidi laptop, dan elaun buku.",
+            "EN": "Full tuition fees, monthly living allowance, laptop subsidy, and book allowances."
+        },
         "deadline": "2026-07-27",
         "url": OFFICIAL_URLS["OSK"]
       },
@@ -100,9 +113,12 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40", "T20"],
         "is_oku_friendly": True,
         "states": ["Terengganu"],
-        "courses": ["Medicine", "Engineering", "Islamic Studies", "Accounting", "Perakaunan Professional", "IT & Computer Science"],
+        "courses": ["MED", "ENG", "ISLAMIC", "FIN", "ACCT_PROF", "IT"],
         "requirements": {"min_a": 7, "min_credits": 7, "min_passes": 7},
-        "funding_details": "Full scholarship / convertible loan covering tuition fees, hostel, and monthly subsistence allowance.",
+        "funding_details": {
+            "BM": "Biasiswa penuh / pinjaman boleh ubah merangkumi yuran pengajian, asrama, dan elaun sara hidup.",
+            "EN": "Full scholarship / convertible loan covering tuition fees, hostel, and monthly subsistence allowance."
+        },
         "deadline": "2026-07-09",
         "url": OFFICIAL_URLS["Terengganu"]
       },
@@ -114,9 +130,12 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40"],
         "is_oku_friendly": True,
         "states": ["All States"],
-        "courses": ["Perakaunan Professional", "Finance & Accounting"],
+        "courses": ["ACCT_PROF", "FIN"],
         "requirements": {"min_a": 5, "min_credits": 5, "min_passes": 5},
-        "funding_details": "Full funding / interest-free convertible financing covering tuition fees, exam fees, registration, and living allowance.",
+        "funding_details": {
+            "BM": "Pembiayaan penuh / pembiayaan boleh ubah tanpa faedah meliputi yuran pengajian, yuran peperiksaan, pendaftaran badan profesional, dan elaun sara hidup.",
+            "EN": "Full funding / interest-free convertible financing covering tuition fees, exam fees, professional body registration, and living allowance."
+        },
         "deadline": "2026-09-30",
         "url": OFFICIAL_URLS["PENERAJU"]
       },
@@ -128,9 +147,12 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40"],
         "is_oku_friendly": True,
         "states": ["All States"],
-        "courses": ["Perakaunan Professional", "Finance & Accounting"],
+        "courses": ["ACCT_PROF", "FIN"],
         "requirements": {"min_a": 5, "min_credits": 5, "min_passes": 5},
-        "funding_details": "Full sponsorship covering FIA & ACCA tuition fees, examination fees, learning materials, and soft skills development.",
+        "funding_details": {
+            "BM": "Penajaan penuh meliputi yuran pengajian FIA & ACCA, yuran peperiksaan, bahan pembelajaran, dan pembangunan kemahiran insaniah.",
+            "EN": "Full sponsorship covering FIA & ACCA tuition fees, examination fees, learning materials, and soft skills development."
+        },
         "deadline": "2026-09-30",
         "url": OFFICIAL_URLS["MYPAC"]
       },
@@ -142,9 +164,12 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40"],
         "is_oku_friendly": True,
         "states": ["All States"],
-        "courses": ["Finance & Accounting", "Perakaunan Professional", "IT & Computer Science", "Law"],
+        "courses": ["FIN", "ACCT_PROF", "IT", "LAW"],
         "requirements": {"min_a": 5, "min_credits": 5, "min_passes": 5},
-        "funding_details": "Covers tuition fees, living allowances, book grants, and internship placements.",
+        "funding_details": {
+            "BM": "Menampung yuran pengajian, elaun sara hidup, elaun buku, dan latihan industri.",
+            "EN": "Covers tuition fees, living allowances, book grants, and internship placements."
+        },
         "deadline": "2026-08-15",
         "url": OFFICIAL_URLS["Cagamas"]
       },
@@ -156,9 +181,12 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40"],
         "is_oku_friendly": True,
         "states": ["All States"],
-        "courses": ["Technical & Vocational (TVET)", "All Courses"],
+        "courses": ["TVET", "ALL"],
         "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
-        "funding_details": "Monthly allowance of RM300 - RM360 throughout study duration in Kolej Komuniti & Politeknik.",
+        "funding_details": {
+            "BM": "Elaun bulanan RM300 - RM360 sepanjang tempoh pengajian di Kolej Komuniti & Politeknik.",
+            "EN": "Monthly allowance of RM300 - RM360 throughout study duration in Kolej Komuniti & Politeknik."
+        },
         "deadline": "2026-12-31",
         "url": OFFICIAL_URLS["KPT_BKPKK"]
       },
@@ -170,9 +198,12 @@ def load_all_174_scholarships():
         "target_income": ["B40"],
         "is_oku_friendly": True,
         "states": ["Terengganu"],
-        "courses": ["All Courses", "Islamic Studies"],
+        "courses": ["ALL", "ISLAMIC"],
         "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
-        "funding_details": "One-off IPT registration aid + tuition assistance for Muslim B40 students.",
+        "funding_details": {
+            "BM": "Bantuan pendaftaran IPT *one-off* + bantuan yuran pengajian untuk pelajar B40 beragama Islam.",
+            "EN": "One-off IPT registration aid + tuition assistance for Muslim B40 students."
+        },
         "deadline": "2026-11-30",
         "url": OFFICIAL_URLS["Zakat_Terengganu"]
       },
@@ -184,9 +215,12 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40"],
         "is_oku_friendly": True,
         "states": ["Negeri Sembilan"],
-        "courses": ["Technical & Vocational (TVET)", "Engineering"],
+        "courses": ["TVET", "ENG"],
         "requirements": {"min_a": 0, "min_credits": 1, "min_passes": 3},
-        "funding_details": "Full tuition fee coverage and monthly skill training allowance for SPM leavers.",
+        "funding_details": {
+            "BM": "Penajaan penuh yuran pengajian dan elaun latihan kemahiran bulanan bagi lepasan SPM.",
+            "EN": "Full tuition fee coverage and monthly skill training allowance for SPM leavers."
+        },
         "deadline": "2026-09-30",
         "url": OFFICIAL_URLS["Negeri Sembilan"]
       },
@@ -198,9 +232,12 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40", "T20"],
         "is_oku_friendly": True,
         "states": ["All States"],
-        "courses": ["All Courses"],
+        "courses": ["ALL"],
         "requirements": {"min_a": 0, "min_credits": 3, "min_passes": 3},
-        "funding_details": "Education financing covering diploma and degree tuition fee & monthly living allowances.",
+        "funding_details": {
+            "BM": "Pembiayaan pendidikan meliputi yuran pengajian diploma/ijazah & elaun sara hidup bulanan.",
+            "EN": "Education financing covering diploma and degree tuition fee & monthly living allowances."
+        },
         "deadline": "2026-12-31",
         "url": OFFICIAL_URLS["PTPTN"]
       },
@@ -212,9 +249,12 @@ def load_all_174_scholarships():
         "target_income": ["B40", "M40", "T20"],
         "is_oku_friendly": True,
         "states": ["All States"],
-        "courses": ["All Courses"],
+        "courses": ["ALL"],
         "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
-        "funding_details": "RM300/month (RM3,600/year) special financial assistance for certified disabled students.",
+        "funding_details": {
+            "BM": "Bantuan kewangan khas RM300/bulan (RM3,600/tahun) bagi pelajar OKU berdaftar.",
+            "EN": "RM300/month (RM3,600/year) special financial assistance for certified disabled students."
+        },
         "deadline": "2026-12-31",
         "url": OFFICIAL_URLS["BKOKU"]
       }
@@ -223,12 +263,12 @@ def load_all_174_scholarships():
     all_data = list(base_scholarships)
     
     cat_cycle = ["State Government", "Zakat", "Corporate", "Government"]
-    state_cycle = STATES
-    course_list_cycle = COURSES[1:]
+    course_keys = list(COURSE_TRANSLATIONS.keys())
+    course_keys.remove("ALL")
     
     current_id = 11
     
-    # Dynamically inject state foundation programs with official state links
+    # Inject state foundation programs
     for state in STATES:
         all_data.append({
             "id": current_id,
@@ -238,15 +278,18 @@ def load_all_174_scholarships():
             "target_income": ["B40", "M40"],
             "is_oku_friendly": True,
             "states": [state],
-            "courses": ["All Courses", "Engineering", "Medicine", "IT & Computer Science", "Perakaunan Professional"],
+            "courses": ["ALL", "ENG", "MED", "IT", "ACCT_PROF"],
             "requirements": {"min_a": 0 if current_id % 2 == 0 else 3, "min_credits": 3, "min_passes": 3},
-            "funding_details": f"Pinjaman boleh ubah / Biasiswa penuh pengajian tinggi anak negeri {state}.",
+            "funding_details": {
+                "BM": f"Pinjaman boleh ubah / Biasiswa penuh pengajian tinggi anak negeri {state}.",
+                "EN": f"Convertible loan / Full tertiary scholarship for anak negeri {state}."
+            },
             "deadline": "2026-08-31",
             "url": OFFICIAL_URLS.get(state, OFFICIAL_URLS["Generic_Search"])
         })
         current_id += 1
 
-    # Dynamically inject state zakat programs with official zakat links
+    # Inject state zakat programs
     for state in STATES:
         zakat_url_key = f"Zakat_{state}" if f"Zakat_{state}" in OFFICIAL_URLS else "Generic_Search"
         all_data.append({
@@ -257,23 +300,26 @@ def load_all_174_scholarships():
             "target_income": ["B40"],
             "is_oku_friendly": True,
             "states": [state],
-            "courses": ["All Courses", "Islamic Studies"],
+            "courses": ["ALL", "ISLAMIC"],
             "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
-            "funding_details": f"Bantuan pendaftaran IPT & sara hidup bagi golongan asnaf / B40 negeri {state}.",
+            "funding_details": {
+                "BM": f"Bantuan pendaftaran IPT & sara hidup bagi golongan asnaf / B40 negeri {state}.",
+                "EN": f"IPT registration & living aid for asnaf / B40 students in {state}."
+            },
             "deadline": "2026-11-30",
             "url": OFFICIAL_URLS.get(zakat_url_key, OFFICIAL_URLS["Generic_Search"])
         })
         current_id += 1
 
-    # Populate remaining up to 174 programs using valid official fallbacks
+    # Populate remaining up to 174 programs
     while len(all_data) < 174:
-        st_idx = len(all_data) % len(state_cycle)
+        st_idx = len(all_data) % len(STATES)
         cat_idx = len(all_data) % len(cat_cycle)
-        crs_idx = len(all_data) % len(course_list_cycle)
+        crs_idx = len(all_data) % len(course_keys)
         
-        c_state = state_cycle[st_idx]
+        c_state = STATES[st_idx]
         c_cat = cat_cycle[cat_idx]
-        c_course = course_list_cycle[crs_idx]
+        c_course_key = course_keys[crs_idx]
         
         if current_id % 4 == 0:
             reqs = {"min_a": 5, "min_credits": 5, "min_passes": 5}
@@ -284,7 +330,6 @@ def load_all_174_scholarships():
         else:
             reqs = {"min_a": 0, "min_credits": 0, "min_passes": 1}
 
-        # Resolve working URL
         if c_cat == "State Government":
             assigned_url = OFFICIAL_URLS.get(c_state, OFFICIAL_URLS["Generic_Search"])
         elif c_cat == "Zakat":
@@ -296,15 +341,18 @@ def load_all_174_scholarships():
 
         all_data.append({
             "id": current_id,
-            "name": f"Bantuan & Dermasiswa {c_cat} {c_course} #{current_id}",
+            "name": f"Bantuan & Dermasiswa {c_cat} #{current_id}",
             "provider": f"Institusi / Badan {c_cat} Malaysia",
             "category": c_cat,
             "target_income": ["B40", "M40"] if current_id % 2 == 0 else ["B40", "M40", "T20"],
             "is_oku_friendly": True if current_id % 3 != 0 else False,
             "states": [c_state] if current_id % 4 == 0 else ["All States"],
-            "courses": [c_course, "All Courses"],
+            "courses": [c_course_key, "ALL"],
             "requirements": reqs,
-            "funding_details": f"Bantuan yuran pengajian, elaun buku, dan elaun sara hidup bulanan bagi bidang {c_course}.",
+            "funding_details": {
+                "BM": "Bantuan yuran pengajian, elaun buku, dan elaun sara hidup bulanan.",
+                "EN": "Tuition fee aid, book allowances, and monthly living allowance."
+            },
             "deadline": f"2026-0{(current_id % 6) + 5}-28",
             "url": assigned_url
         })
@@ -328,7 +376,7 @@ TEXT = {
         "theme_toggle": "👁️ Mod Kontras Tinggi OKU",
         "voice_nav_title": "🎙️ Kawalan Suara Interaktif",
         "voice_nav_help": "Tekan 'Mula Rakaman Suara' dan sebut frasa seperti 'Selangor', 'B40', atau 'Perakaunan'.",
-        "state_label": "📍 Negeri Asal Candidate (14 Negeri)",
+        "state_label": "📍 Negeri Asal Pemohon (14 Negeri)",
         "course_label": "📚 Bidang Pengajian Diminati",
         "income_label": "💰 Kategori Pendapatan Isi Rumah",
         "oku_label": "♿ Adakah anda Pemegang Kad OKU?",
@@ -543,7 +591,25 @@ with st.sidebar:
     st.divider()
 
     candidate_state = st.selectbox(t["state_label"], options=STATES, index=11)
-    candidate_course = st.selectbox(t["course_label"], options=COURSES, index=3)  # Default: Perakaunan Professional
+    
+    # Dynamic Course Options Based on Selected Language
+    course_options_dict = {
+        code: data[st.session_state.lang] 
+        for code, data in COURSE_TRANSLATIONS.items()
+    }
+    
+    selected_course_label = st.selectbox(
+        t["course_label"], 
+        options=list(course_options_dict.values()), 
+        index=3  # Default: Professional Accountancy / Perakaunan Professional
+    )
+    
+    # Map back selected localized label to internal course code
+    candidate_course_code = [
+        code for code, label in course_options_dict.items() 
+        if label == selected_course_label
+    ][0]
+
     candidate_income = st.radio(t["income_label"], options=INCOME_CATS, index=0, horizontal=True)
     is_oku = st.checkbox(t["oku_label"], value=False)
 
@@ -573,7 +639,8 @@ matched_list = []
 for item in scholarships_data:
     state_match = "All States" in item["states"] or candidate_state in item["states"]
     income_match = candidate_income in item["target_income"]
-    course_match = (candidate_course == "All Courses") or ("All Courses" in item["courses"]) or (candidate_course in item["courses"])
+    
+    course_match = (candidate_course_code == "ALL") or ("ALL" in item["courses"]) or (candidate_course_code in item["courses"])
     
     oku_match = True
     if is_oku and not item["is_oku_friendly"]:
@@ -599,18 +666,22 @@ with c2:
 with c3:
     st.metric("Negeri & Kategori", f"{candidate_state} ({candidate_income})")
 with c4:
-    st.metric("Pencapaian SPM", f"{total_as}A | {total_credits} Kredit | {total_passes} Lulus")
+    st.metric("Pencapaian SPM", f"{total_as}A | {total_credits} Credit | {total_passes} Pass")
 
 st.divider()
 
 if btn_search:
-    st.success(f"✅ Carian Dikemaskini! Padanan Biasiswa Ditemui Bagi Keputusan SPM: {total_as}A, {total_credits} Kredit, {total_passes} Lulus.")
+    st.success(f"✅ Filter Updated! Matches found for SPM results: {total_as}A, {total_credits} Credits, {total_passes} Passes.")
 
 if matched_list:
     col_tts1, col_tts2 = st.columns([1, 3])
     with col_tts1:
         if st.button(t["tts_button"]):
-            summary_text = f"Salam {student_name}, carian mendapati {len(matched_list)} program bantuan kewangan yang padan dengan profil anda."
+            summary_text = (
+                f"Salam {student_name}, carian mendapati {len(matched_list)} program bantuan kewangan yang padan dengan profil anda."
+                if st.session_state.lang == "BM" else
+                f"Hello {student_name}, search found {len(matched_list)} financial aid programs matching your profile."
+            )
             generate_audio_player(summary_text, lang_code="ms" if st.session_state.lang == "BM" else "en")
 
 st.subheader(t["results_header"])
@@ -625,7 +696,7 @@ else:
     start_idx = (page - 1) * items_per_page
     end_idx = start_idx + items_per_page
     
-    st.caption(f"Menampilkan / Showing {start_idx + 1} - {min(end_idx, len(matched_list))} daripada {len(matched_list)} padanan biasiswa.")
+    st.caption(f"Showing {start_idx + 1} - {min(end_idx, len(matched_list))} of {len(matched_list)} matching scholarships.")
 
     for item in matched_list[start_idx:end_idx]:
         oku_badge = f"<span class='badge-oku'>♿ OKU Friendly</span>" if item["is_oku_friendly"] else ""
@@ -635,10 +706,19 @@ else:
         if r.get("min_a", 0) > 0:
             req_desc.append(f"Min {r['min_a']}A")
         if r.get("min_credits", 0) > 0:
-            req_desc.append(f"Min {r['min_credits']} Kredit (Gred C)")
+            req_desc.append(f"Min {r['min_credits']} Credit (Grade C)")
         if r.get("min_passes", 0) > 0:
-            req_desc.append(f"Min {r['min_passes']} Lulus (Gred E)")
-        req_str = ", ".join(req_desc) if req_desc else "Terbuka (Kelayakan Lulus SPM)"
+            req_desc.append(f"Min {r['min_passes']} Pass (Grade E)")
+        req_str = ", ".join(req_desc) if req_desc else "Open (SPM Pass)"
+
+        # Translate applicable courses list dynamically
+        translated_courses = [
+            COURSE_TRANSLATIONS.get(c_code, {}).get(st.session_state.lang, c_code)
+            for c_code in item["courses"]
+        ]
+
+        # Translate funding details
+        funding_str = item["funding_details"].get(st.session_state.lang, item["funding_details"]["EN"])
 
         card_html = f"""
         <div class="scholar-card">
@@ -646,10 +726,10 @@ else:
                 <h3 style="margin: 0; color: {accent_color};">#{item['id']} - {item['name']}</h3>
                 <div>{oku_badge} <span class="badge-cat">{item['category']}</span></div>
             </div>
-            <p><strong>Penyedia / Provider:</strong> {item['provider']}</p>
+            <p><strong>Provider:</strong> {item['provider']}</p>
             <p><strong>{t['req_label']}:</strong> <span style="color: #0284C7; font-weight: bold;">{req_str}</span></p>
-            <p><strong>{t['funding_label']}:</strong> {item['funding_details']}</p>
-            <p><strong>{t['courses_label']}:</strong> {', '.join(item['courses'])}</p>
+            <p><strong>{t['funding_label']}:</strong> {funding_str}</p>
+            <p><strong>{t['courses_label']}:</strong> {', '.join(translated_courses)}</p>
             <p style="color: #DC2626; font-weight: bold;">⏳ {t['deadline_label']}: {item['deadline']}</p>
             <a href="{item['url']}" target="_blank" class="apply-link-btn">🔗 {t['apply_button']}</a>
         </div>
@@ -663,18 +743,19 @@ st.divider()
 # 6. DYNAMIC PERSONAL STATEMENT GENERATOR
 # ---------------------------------------------------------
 st.subheader(t["personal_statement_tab"])
-with st.expander("Klik untuk menjana draf kenyataan peribadi berdasarkan gred SPM anda"):
+with st.expander("Click to generate a personal statement draft based on your SPM grades"):
     if st.button(t["generate_statement_btn"]):
-        applicant_display = student_name if student_name.strip() else "Saya"
+        applicant_display = student_name if student_name.strip() else ("Saya" if st.session_state.lang == "BM" else "I")
+        course_name_display = selected_course_label
         
         if st.session_state.lang == "BM":
-            sample_ps = f"""Nama saya {applicant_display}, pemohon dari {candidate_state}. Keputusan SPM saya merangkumi {total_as}A, {total_credits} Kredit, dan {total_passes} Lulus. Saya berhasrat untuk melanjutkan pengajian dalam bidang {candidate_course}.
+            sample_ps = f"""Nama saya {applicant_display}, pemohon dari {candidate_state}. Keputusan SPM saya merangkumi {total_as}A, {total_credits} Kredit, dan {total_passes} Lulus. Saya berhasrat untuk melanjutkan pengajian dalam bidang {course_name_display}.
 
 Sebagai calon daripada kategori pendapatan {candidate_income}, pembiayaan ini amat bermakna untuk menampung kos pengajian dan sara hidup saya. Saya komited untuk belajar bersungguh-sungguh dan menyumbang kembali kepada masyarakat."""
         else:
-            sample_ps = f"""My name is {applicant_display}, an applicant from {candidate_state}. My SPM results consist of {total_as}As, {total_credits} Credits, and {total_passes} Passes. I aspire to pursue my education in {candidate_course}.
+            sample_ps = f"""My name is {applicant_display}, an applicant from {candidate_state}. My SPM results consist of {total_as}As, {total_credits} Credits, and {total_passes} Passes. I aspire to pursue my education in {course_name_display}.
 
 Coming from a household in the {candidate_income} category, securing this financial support will significantly assist my academic journey and living expenses. I remain dedicated to working hard and contributing back to the community."""
 
-        st.text_area("Draf Kenyataan Peribadi / Personal Statement Draft", sample_ps, height=180)
+        st.text_area("Personal Statement Draft / Draf Kenyataan Peribadi", sample_ps, height=180)
         generate_audio_player(sample_ps, lang_code="ms" if st.session_state.lang == "BM" else "en")
