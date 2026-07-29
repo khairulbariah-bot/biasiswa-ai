@@ -1,9 +1,7 @@
 import streamlit as st
-import json
 import base64
 from io import BytesIO
 from gtts import gTTS
-import pandas as pd
 
 # Page Configuration
 st.set_page_config(
@@ -14,7 +12,167 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# 1. BILINGUAL TRANSLATION DICTIONARY
+# 1. SCHOLARSHIPS DATA (Embedded directly to prevent file path errors)
+# ---------------------------------------------------------
+scholarships_data = [
+  {
+    "id": 1,
+    "name": "Biasiswa OSK Foundation Scholarship Awards 2026",
+    "provider": "OSK Foundation",
+    "category": "Corporate",
+    "target_income": ["B40", "M40"],
+    "is_oku_friendly": True,
+    "states": ["All States"],
+    "courses": ["Engineering", "Quantity Surveying", "Finance & Accounting", "IT & Computer Science", "Built Environment"],
+    "minimum_grades": {"A": 7, "A+": 0},
+    "funding_details": "Full tuition fees, monthly living allowance, laptop subsidy, and book/equipment allowances.",
+    "deadline": "2026-07-27",
+    "url": "https://biasiswa.index.my/biasiswa-osk-foundation-scholarship-awards/"
+  },
+  {
+    "id": 2,
+    "name": "Biasiswa Yayasan Terengganu (Siswa Cemerlang)",
+    "provider": "Yayasan Terengganu",
+    "category": "State Government",
+    "target_income": ["B40", "M40", "T20"],
+    "is_oku_friendly": True,
+    "states": ["Terengganu"],
+    "courses": ["Medicine", "Engineering", "Islamic Studies", "Accounting", "Computer Science"],
+    "minimum_grades": {"A": 7, "A+": 0},
+    "funding_details": "Full scholarship / convertible loan covering tuition fees, hostel, and monthly subsistence allowance.",
+    "deadline": "2026-07-09",
+    "url": "https://biasiswa.index.my/biasiswa-yayasan-terengganu/"
+  },
+  {
+    "id": 3,
+    "name": "Biasiswa Cagamas Scholarship Programme",
+    "provider": "Cagamas Berhad",
+    "category": "Corporate",
+    "target_income": ["B40", "M40"],
+    "is_oku_friendly": True,
+    "states": ["All States"],
+    "courses": ["Finance", "Accounting", "IT & Computer Science", "Data Analytics", "Law"],
+    "minimum_grades": {"A": 6, "A+": 0},
+    "funding_details": "Covers tuition fees, living allowances, book grants, and guaranteed internship opportunities.",
+    "deadline": "2026-08-15",
+    "url": "https://biasiswa.index.my/biasiswa-cagamas-scholarship-programme/"
+  },
+  {
+    "id": 4,
+    "name": "Biasiswa OCBC Scholarship",
+    "provider": "OCBC Bank",
+    "category": "Corporate",
+    "target_income": ["B40", "M40", "T20"],
+    "is_oku_friendly": False,
+    "states": ["All States"],
+    "courses": ["Banking & Finance", "Economics", "Computer Science", "Law", "Data Science"],
+    "minimum_grades": {"A": 7, "A+": 0},
+    "funding_details": "RM15,000 annually for tuition fees and academic expenses + internship placement.",
+    "deadline": "2026-06-30",
+    "url": "https://biasiswa.index.my/biasiswa-ocbc-scholarship/"
+  },
+  {
+    "id": 5,
+    "name": "Bantuan Kewangan KPT – Kluster B40 & M40 (BKPKK)",
+    "provider": "Kementerian Pendidikan Tinggi (KPT)",
+    "category": "Government",
+    "target_income": ["B40", "M40"],
+    "is_oku_friendly": True,
+    "states": ["All States"],
+    "courses": ["Technical & Vocational (TVET)", "Diploma Courses", "Certificate Courses"],
+    "minimum_grades": {"A": 0, "A+": 0},
+    "funding_details": "Monthly allowance of RM300 - RM360 throughout study duration in Kolej Komuniti & Polytechnics.",
+    "deadline": "2026-12-31",
+    "url": "https://biasiswa.index.my/bantuan-kewangan-kementerian-pendidikan-tinggi-kpt-kluster-b40-dan-m40/"
+  },
+  {
+    "id": 6,
+    "name": "Bantuan Zakat Pendidikan IPTA / IPTS MAIDAM",
+    "provider": "Majlis Agama Islam dan Adat Melayu Terengganu",
+    "category": "Zakat",
+    "target_income": ["B40"],
+    "is_oku_friendly": True,
+    "states": ["Terengganu"],
+    "courses": ["All Courses", "Islamic Studies", "Diploma", "Degree"],
+    "minimum_grades": {"A": 0, "A+": 0},
+    "funding_details": "One-off IPT registration aid + tuition assistance for Muslim Asnaf / B40 students.",
+    "deadline": "2026-11-30",
+    "url": "https://biasiswa.index.my/biasiswa-bantuan-zakat-ipta-ipts-maidam/"
+  },
+  {
+    "id": 7,
+    "name": "Biasiswa TVET Madani Negeri Sembilan (KYNS)",
+    "provider": "Kolej Yayasan Negeri Sembilan",
+    "category": "State Government",
+    "target_income": ["B40", "M40"],
+    "is_oku_friendly": True,
+    "states": ["Negeri Sembilan"],
+    "courses": ["Technical & Vocational (TVET)", "Engineering Technology", "Automotive", "Culinary Arts"],
+    "minimum_grades": {"A": 0, "A+": 0},
+    "funding_details": "Full tuition fee coverage and monthly skill training allowance.",
+    "deadline": "2026-09-30",
+    "url": "https://biasiswa.index.my/biasiswa-tvet-madani/"
+  },
+  {
+    "id": 8,
+    "name": "Biasiswa Siswi Safi 2026",
+    "provider": "Safi Malaysia",
+    "category": "Corporate",
+    "target_income": ["B40", "M40"],
+    "is_oku_friendly": True,
+    "states": ["All States"],
+    "courses": ["All Courses", "Mass Communication", "Business", "Sciences"],
+    "minimum_grades": {"A": 3, "A+": 0},
+    "funding_details": "Financial grant up to RM10,000 per student from a RM1,000,000 total pool.",
+    "deadline": "2026-06-30",
+    "url": "https://biasiswa.index.my/biasiswa-siswi-safi/"
+  },
+  {
+    "id": 9,
+    "name": "Biasiswa IJM Scholarship Award",
+    "provider": "IJM Corporation Berhad",
+    "category": "Corporate",
+    "target_income": ["B40", "M40"],
+    "is_oku_friendly": False,
+    "states": ["All States"],
+    "courses": ["Civil Engineering", "Mechanical Engineering", "Electrical Engineering", "Quantity Surveying"],
+    "minimum_grades": {"A": 5, "A+": 0},
+    "funding_details": "Full tuition fees, living allowance, and guaranteed employment at IJM Group upon graduation.",
+    "deadline": "2026-06-30",
+    "url": "https://biasiswa.index.my/biasiswa-ijm-scholarship/"
+  },
+  {
+    "id": 10,
+    "name": "Pembiayaan Yayasan Peneraju Bumiputera (PPYB)",
+    "provider": "Yayasan Peneraju",
+    "category": "Government",
+    "target_income": ["B40", "M40"],
+    "is_oku_friendly": True,
+    "states": ["All States"],
+    "courses": ["Finance & Accounting", "Data Analytics", "ACCA / CAT", "Technology"],
+    "minimum_grades": {"A": 5, "A+": 0},
+    "funding_details": "Full sponsorship for professional certification, exam fees, tuition, and living stipends.",
+    "deadline": "2026-10-31",
+    "url": "https://biasiswa.index.my/pembiayaan-yayasan-peneraju-pendidikan-bumiputera/"
+  },
+  {
+    "id": 11,
+    "name": "Biasiswa Bantuan Elaun Khas OKU (KPT)",
+    "provider": "Kementerian Pendidikan Tinggi (BKOKU)",
+    "category": "Government",
+    "target_income": ["B40", "M40", "T20"],
+    "is_oku_friendly": True,
+    "states": ["All States"],
+    "courses": ["All Courses", "Diploma", "Degree", "Certificate Courses"],
+    "minimum_grades": {"A": 0, "A+": 0},
+    "funding_details": "RM300/month (RM3,600/year) special financial assistance for certified disabled (OKU) tertiary students.",
+    "deadline": "2026-12-31",
+    "url": "https://biasiswa.index.my/bantuan-elaun-khas-oku-kpt/"
+  }
+]
+
+# ---------------------------------------------------------
+# 2. BILINGUAL TRANSLATION DICTIONARY
 # ---------------------------------------------------------
 TEXT = {
     "BM": {
@@ -82,25 +240,12 @@ TEXT = {
 }
 
 # ---------------------------------------------------------
-# 2. STATE MANAGEMENT & DATA LOADING
+# 3. STATE MANAGEMENT
 # ---------------------------------------------------------
 if "lang" not in st.session_state:
     st.session_state.lang = "BM"
 if "high_contrast" not in st.session_state:
     st.session_state.high_contrast = False
-if "voice_input_text" not in st.session_state:
-    st.session_state.voice_input_text = ""
-
-@st.cache_data
-def load_scholarships():
-    try:
-        with open("scholarships.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        st.error("Missing scholarships.json dataset.")
-        return []
-
-scholarships_data = load_scholarships()
 
 # List Options
 STATES = [
@@ -134,7 +279,7 @@ def generate_audio_player(text_to_speak, lang_code="ms"):
         st.warning(f"Audio engine notice: {e}")
 
 # ---------------------------------------------------------
-# 3. ACCESSIBLE CUSTOM CSS STYLING
+# 4. ACCESSIBLE CUSTOM CSS STYLING
 # ---------------------------------------------------------
 if st.session_state.high_contrast:
     bg_color = "#000000"
@@ -191,7 +336,7 @@ custom_css = f"""
 st.markdown(custom_css, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 4. SIDEBAR - CONTROLS & USER PROFILE
+# 5. SIDEBAR - CONTROLS & USER PROFILE
 # ---------------------------------------------------------
 with st.sidebar:
     st.image("https://img.icons8.com/illustrations/100/graduation-cap.png", width=80)
@@ -265,7 +410,7 @@ with st.sidebar:
     btn_search = st.button(t["btn_generate"], use_container_width=True)
 
 # ---------------------------------------------------------
-# 5. MAIN CONTENT DASHBOARD
+# 6. MAIN CONTENT DASHBOARD
 # ---------------------------------------------------------
 st.title(t["title"])
 st.caption(t["subtitle"])
@@ -350,7 +495,7 @@ else:
 st.divider()
 
 # ---------------------------------------------------------
-# 6. ACCESSIBLE PERSONAL STATEMENT GENERATOR
+# 7. ACCESSIBLE PERSONAL STATEMENT GENERATOR
 # ---------------------------------------------------------
 st.subheader(t["personal_statement_tab"])
 with st.expander("Click to generate your personal statement draft"):
