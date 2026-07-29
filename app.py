@@ -12,13 +12,13 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# 1. OFFICIAL WORKING URL DICTIONARY
+# 1. OFFICIAL VERIFIED WORKING URL DICTIONARY
 # ---------------------------------------------------------
 OFFICIAL_URLS = {
     # Federal & Government Portals
     "PTPTN": "https://www.ptptn.gov.my/",
-    "BKOKU": "https://mysiswa.mohe.gov.my/",
-    "KPT_BKPKK": "https://mysiswa.mohe.gov.my/",
+    "BKOKU": "https://bkoku.mohe.gov.my/",               # Verified active official KPT portal
+    "KPT_BKPKK": "https://www.mohe.gov.my/perkhidmatan/penajaan-pendidikan-tinggi", # Official KPT portal
     "JPA": "https://bmfbm.jpa.gov.my/",
     "MARA": "https://www.mara.gov.my/en/education/education-financing/",
     
@@ -48,13 +48,13 @@ OFFICIAL_URLS = {
     "Zakat_Perak": "https://www.maiamp.gov.my/",
     "Zakat_Pahang": "https://www.zgp.com.my/",
     
-    # Corporate
+    # Corporate & General Fallback
     "OSK": "https://www.oskfoundation.com/",
     "Cagamas": "https://www.cagamas.com.my/",
     "Petronas": "https://educationsponsorship.petronas.com.my/",
     "SimeDarby": "https://www.yayasansimedarby.com/",
     "Maybank": "https://www.maybank.com/en/careers/students/scholarship.page",
-    "Generic_Search": "https://www.malaysia.gov.my/portal/category/871"
+    "Generic_Search": "https://www.malaysia.gov.my/personas/keluarga-berpendapatan-rendah/mendapatkan-bantuan-pendidikan"
 }
 
 STATES = [
