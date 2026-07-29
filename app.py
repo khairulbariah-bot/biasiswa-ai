@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# 1. SCHOLARSHIPS DATA (Embedded directly to prevent file path errors)
+# 1. SCHOLARSHIPS DATA (Embedded directly in memory)
 # ---------------------------------------------------------
 scholarships_data = [
   {
@@ -23,7 +23,7 @@ scholarships_data = [
     "target_income": ["B40", "M40"],
     "is_oku_friendly": True,
     "states": ["All States"],
-    "courses": ["Engineering", "Quantity Surveying", "Finance & Accounting", "IT & Computer Science", "Built Environment"],
+    "courses": ["Engineering", "Quantity Surveying", "Finance & Accounting", "Perakaunan Professional", "IT & Computer Science", "Built Environment"],
     "minimum_grades": {"A": 7, "A+": 0},
     "funding_details": "Full tuition fees, monthly living allowance, laptop subsidy, and book/equipment allowances.",
     "deadline": "2026-07-27",
@@ -37,7 +37,7 @@ scholarships_data = [
     "target_income": ["B40", "M40", "T20"],
     "is_oku_friendly": True,
     "states": ["Terengganu"],
-    "courses": ["Medicine", "Engineering", "Islamic Studies", "Accounting", "Computer Science"],
+    "courses": ["Medicine", "Engineering", "Islamic Studies", "Accounting", "Perakaunan Professional", "Computer Science"],
     "minimum_grades": {"A": 7, "A+": 0},
     "funding_details": "Full scholarship / convertible loan covering tuition fees, hostel, and monthly subsistence allowance.",
     "deadline": "2026-07-09",
@@ -51,7 +51,7 @@ scholarships_data = [
     "target_income": ["B40", "M40"],
     "is_oku_friendly": True,
     "states": ["All States"],
-    "courses": ["Finance", "Accounting", "IT & Computer Science", "Data Analytics", "Law"],
+    "courses": ["Finance", "Accounting", "Perakaunan Professional", "IT & Computer Science", "Data Analytics", "Law"],
     "minimum_grades": {"A": 6, "A+": 0},
     "funding_details": "Covers tuition fees, living allowances, book grants, and guaranteed internship opportunities.",
     "deadline": "2026-08-15",
@@ -149,7 +149,7 @@ scholarships_data = [
     "target_income": ["B40", "M40"],
     "is_oku_friendly": True,
     "states": ["All States"],
-    "courses": ["Finance & Accounting", "Data Analytics", "ACCA / CAT", "Technology"],
+    "courses": ["Finance & Accounting", "Perakaunan Professional", "Data Analytics", "ACCA / CAT", "Technology"],
     "minimum_grades": {"A": 5, "A+": 0},
     "funding_details": "Full sponsorship for professional certification, exam fees, tuition, and living stipends.",
     "deadline": "2026-10-31",
@@ -240,24 +240,25 @@ TEXT = {
 }
 
 # ---------------------------------------------------------
-# 3. STATE MANAGEMENT
+# 3. STATE MANAGEMENT & LIST DEFINITIONS
 # ---------------------------------------------------------
 if "lang" not in st.session_state:
     st.session_state.lang = "BM"
 if "high_contrast" not in st.session_state:
     st.session_state.high_contrast = False
 
-# List Options
 STATES = [
     "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", 
     "Pahang", "Perak", "Perlis", "Pulau Pinang", "Sabah", 
     "Sarawak", "Selangor", "Terengganu", "Wilayah Persekutuan"
 ]
+
 COURSES = [
-    "All Courses", "Engineering", "Finance & Accounting", "IT & Computer Science",
-    "Medicine", "Technical & Vocational (TVET)", "Islamic Studies",
-    "Law", "Mass Communication", "Built Environment"
+    "All Courses", "Engineering", "Finance & Accounting", "Perakaunan Professional", 
+    "IT & Computer Science", "Medicine", "Technical & Vocational (TVET)", 
+    "Islamic Studies", "Law", "Mass Communication", "Built Environment"
 ]
+
 INCOME_CATS = ["B40", "M40", "T20"]
 
 # Helper for Text-To-Speech Generation
@@ -269,7 +270,7 @@ def generate_audio_player(text_to_speak, lang_code="ms"):
         fp.seek(0)
         b64 = base64.b64encode(fp.read()).decode()
         md = f"""
-            <audio controls autoplay style="width: 100%; class="stAudio">
+            <audio controls autoplay style="width: 100%;">
             <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
             Your browser does not support the audio element.
             </audio>
@@ -392,7 +393,7 @@ with st.sidebar:
     st.divider()
 
     # Form Filters
-    candidate_state = st.selectbox(t["state_label"], options=STATES, index=11) # Selangor default
+    candidate_state = st.selectbox(t["state_label"], options=STATES, index=11)
     candidate_course = st.selectbox(t["course_label"], options=COURSES, index=0)
     candidate_income = st.radio(t["income_label"], options=INCOME_CATS, index=0, horizontal=True)
     is_oku = st.checkbox(t["oku_label"], value=False)
