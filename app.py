@@ -12,8 +12,51 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# 1. COMPLETE SCHOLARSHIP DATASET (174 PROGRAMMES)
+# 1. OFFICIAL WORKING URL DICTIONARY
 # ---------------------------------------------------------
+OFFICIAL_URLS = {
+    # Federal & Government Portals
+    "PTPTN": "https://www.ptptn.gov.my/",
+    "BKOKU": "https://mysiswa.mohe.gov.my/",
+    "KPT_BKPKK": "https://mysiswa.mohe.gov.my/",
+    "JPA": "https://bmfbm.jpa.gov.my/",
+    "MARA": "https://www.mara.gov.my/en/education/education-financing/",
+    
+    # State Foundations (Yayasan Negeri)
+    "Johor": "https://www.ypj.gov.my/",
+    "Kedah": "https://www.yayasankedah.org.my/",
+    "Kelantan": "http://www.yayasankelantan.gov.my/",
+    "Melaka": "https://www.tapem.melaka.gov.my/",
+    "Negeri Sembilan": "https://www.yns.gov.my/",
+    "Pahang": "https://www.yp.org.my/",
+    "Perak": "https://www.yayasanperak.gov.my/",
+    "Perlis": "https://www.perlis.gov.my/",
+    "Pulau Pinang": "https://e-biasiswa.penang.gov.my/",
+    "Sabah": "https://biasiswa.sabah.gov.my/",
+    "Sarawak": "https://yayasansarawak.org.my/",
+    "Selangor": "https://tkis.selangor.gov.my/",
+    "Terengganu": "https://yt.gov.my/",
+    "Wilayah Persekutuan": "https://www.kwp.gov.my/",
+
+    # Zakat Portals
+    "Zakat_Terengganu": "https://www.maidam.gov.my/",
+    "Zakat_Selangor": "https://www.zakatselangor.com.my/",
+    "Zakat_KL": "https://www.zakat2u.com.my/",
+    "Zakat_Johor": "https://www.maij.gov.my/",
+    "Zakat_Kedah": "https://www.zakatkedah.com.my/",
+    "Zakat_Penang": "https://zakatpenang.com/",
+    "Zakat_Perak": "https://www.maiamp.gov.my/",
+    "Zakat_Pahang": "https://www.zgp.com.my/",
+    
+    # Corporate
+    "OSK": "https://www.oskfoundation.com/",
+    "Cagamas": "https://www.cagamas.com.my/",
+    "Petronas": "https://educationsponsorship.petronas.com.my/",
+    "SimeDarby": "https://www.yayasansimedarby.com/",
+    "Maybank": "https://www.maybank.com/en/careers/students/scholarship.page",
+    "Generic_Search": "https://www.malaysia.gov.my/portal/category/871"
+}
+
 STATES = [
     "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", 
     "Pahang", "Perak", "Perlis", "Pulau Pinang", "Sabah", 
@@ -30,7 +73,6 @@ INCOME_CATS = ["B40", "M40", "T20"]
 
 @st.cache_data
 def load_all_174_scholarships():
-    # Base Featured Core Scholarships
     base_scholarships = [
       {
         "id": 1,
@@ -44,7 +86,7 @@ def load_all_174_scholarships():
         "requirements": {"min_a": 7, "min_credits": 7, "min_passes": 7},
         "funding_details": "Full tuition fees, monthly living allowance, laptop subsidy, and book allowances.",
         "deadline": "2026-07-27",
-        "url": "https://biasiswa.index.my/biasiswa-osk-foundation-scholarship-awards/"
+        "url": OFFICIAL_URLS["OSK"]
       },
       {
         "id": 2,
@@ -58,7 +100,7 @@ def load_all_174_scholarships():
         "requirements": {"min_a": 7, "min_credits": 7, "min_passes": 7},
         "funding_details": "Full scholarship / convertible loan covering tuition fees, hostel, and monthly subsistence allowance.",
         "deadline": "2026-07-09",
-        "url": "https://biasiswa.index.my/biasiswa-yayasan-terengganu/"
+        "url": OFFICIAL_URLS["Terengganu"]
       },
       {
         "id": 3,
@@ -72,7 +114,7 @@ def load_all_174_scholarships():
         "requirements": {"min_a": 5, "min_credits": 5, "min_passes": 5},
         "funding_details": "Covers tuition fees, living allowances, book grants, and internship placements.",
         "deadline": "2026-08-15",
-        "url": "https://biasiswa.index.my/biasiswa-cagamas-scholarship-programme/"
+        "url": OFFICIAL_URLS["Cagamas"]
       },
       {
         "id": 4,
@@ -86,7 +128,7 @@ def load_all_174_scholarships():
         "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
         "funding_details": "Monthly allowance of RM300 - RM360 throughout study duration in Kolej Komuniti & Politeknik.",
         "deadline": "2026-12-31",
-        "url": "https://biasiswa.index.my/bantuan-kewangan-kementerian-pendidikan-tinggi-kpt-kluster-b40-dan-m40/"
+        "url": OFFICIAL_URLS["KPT_BKPKK"]
       },
       {
         "id": 5,
@@ -100,7 +142,7 @@ def load_all_174_scholarships():
         "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
         "funding_details": "One-off IPT registration aid + tuition assistance for Muslim B40 students.",
         "deadline": "2026-11-30",
-        "url": "https://biasiswa.index.my/biasiswa-bantuan-zakat-ipta-ipts-maidam/"
+        "url": OFFICIAL_URLS["Zakat_Terengganu"]
       },
       {
         "id": 6,
@@ -114,7 +156,7 @@ def load_all_174_scholarships():
         "requirements": {"min_a": 0, "min_credits": 1, "min_passes": 3},
         "funding_details": "Full tuition fee coverage and monthly skill training allowance for SPM leavers.",
         "deadline": "2026-09-30",
-        "url": "https://biasiswa.index.my/biasiswa-tvet-madani/"
+        "url": OFFICIAL_URLS["Negeri Sembilan"]
       },
       {
         "id": 7,
@@ -128,7 +170,7 @@ def load_all_174_scholarships():
         "requirements": {"min_a": 0, "min_credits": 3, "min_passes": 3},
         "funding_details": "Education financing covering diploma and degree tuition fee & monthly living allowances.",
         "deadline": "2026-12-31",
-        "url": "https://www.ptptn.gov.my/"
+        "url": OFFICIAL_URLS["PTPTN"]
       },
       {
         "id": 8,
@@ -142,7 +184,7 @@ def load_all_174_scholarships():
         "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
         "funding_details": "RM300/month (RM3,600/year) special financial assistance for certified disabled students.",
         "deadline": "2026-12-31",
-        "url": "https://biasiswa.index.my/bantuan-elaun-khas-oku-kpt/"
+        "url": OFFICIAL_URLS["BKOKU"]
       }
     ]
 
@@ -154,6 +196,7 @@ def load_all_174_scholarships():
     
     current_id = 9
     
+    # Dynamically inject state foundation programs with official state links
     for state in STATES:
         all_data.append({
             "id": current_id,
@@ -167,11 +210,13 @@ def load_all_174_scholarships():
             "requirements": {"min_a": 0 if current_id % 2 == 0 else 3, "min_credits": 3, "min_passes": 3},
             "funding_details": f"Pinjaman boleh ubah / Biasiswa penuh pengajian tinggi anak negeri {state}.",
             "deadline": "2026-08-31",
-            "url": f"https://biasiswa.index.my/tag/yayasan-{state.lower().replace(' ', '-')}/"
+            "url": OFFICIAL_URLS.get(state, OFFICIAL_URLS["Generic_Search"])
         })
         current_id += 1
 
+    # Dynamically inject state zakat programs with official zakat links
     for state in STATES:
+        zakat_url_key = f"Zakat_{state}" if f"Zakat_{state}" in OFFICIAL_URLS else "Generic_Search"
         all_data.append({
             "id": current_id,
             "name": f"Bantuan Zakat Pendidikan IPT {state}",
@@ -184,10 +229,11 @@ def load_all_174_scholarships():
             "requirements": {"min_a": 0, "min_credits": 0, "min_passes": 1},
             "funding_details": f"Bantuan pendaftaran IPT & sara hidup bagi golongan asnaf / B40 negeri {state}.",
             "deadline": "2026-11-30",
-            "url": f"https://biasiswa.index.my/tag/zakat-{state.lower().replace(' ', '-')}/"
+            "url": OFFICIAL_URLS.get(zakat_url_key, OFFICIAL_URLS["Generic_Search"])
         })
         current_id += 1
 
+    # Populate remaining up to 174 programs using valid official fallbacks
     while len(all_data) < 174:
         st_idx = len(all_data) % len(state_cycle)
         cat_idx = len(all_data) % len(cat_cycle)
@@ -206,6 +252,16 @@ def load_all_174_scholarships():
         else:
             reqs = {"min_a": 0, "min_credits": 0, "min_passes": 1}
 
+        # Resolve working URL
+        if c_cat == "State Government":
+            assigned_url = OFFICIAL_URLS.get(c_state, OFFICIAL_URLS["Generic_Search"])
+        elif c_cat == "Zakat":
+            assigned_url = OFFICIAL_URLS.get(f"Zakat_{c_state}", OFFICIAL_URLS["Generic_Search"])
+        elif c_cat == "Corporate":
+            assigned_url = OFFICIAL_URLS["SimeDarby"] if current_id % 2 == 0 else OFFICIAL_URLS["Maybank"]
+        else:
+            assigned_url = OFFICIAL_URLS["KPT_BKPKK"] if current_id % 2 == 0 else OFFICIAL_URLS["JPA"]
+
         all_data.append({
             "id": current_id,
             "name": f"Bantuan & Dermasiswa {c_cat} {c_course} #{current_id}",
@@ -218,7 +274,7 @@ def load_all_174_scholarships():
             "requirements": reqs,
             "funding_details": f"Bantuan yuran pengajian, elaun buku, dan elaun sara hidup bulanan bagi bidang {c_course}.",
             "deadline": f"2026-0{(current_id % 6) + 5}-28",
-            "url": f"https://biasiswa.index.my/biasiswa-program-{current_id}/"
+            "url": assigned_url
         })
         current_id += 1
 
@@ -254,7 +310,7 @@ TEXT = {
         "results_header": "🎯 Hasil Padanan Biasiswa & Pembiayaan",
         "matched_count": "Padanan Ditemui",
         "tts_button": "🔊 Baca Senarai Ini (Text-to-Speech)",
-        "apply_button": "🔗 Mohon / Maklumat Lanjut",
+        "apply_button": "🌐 Layari Portal Rasmi Permohonan",
         "deadline_label": "Tarikh Tutup",
         "courses_label": "Kursus Dibenarkan",
         "funding_label": "Skop Bantuan",
@@ -287,7 +343,7 @@ TEXT = {
         "results_header": "🎯 Matched Financial Aid & Scholarships",
         "matched_count": "Scholarships Matched",
         "tts_button": "🔊 Read List Out Loud (Text-to-Speech)",
-        "apply_button": "🔗 Apply / Detailed Info",
+        "apply_button": "🌐 Visit Official Application Portal",
         "deadline_label": "Deadline",
         "courses_label": "Applicable Courses",
         "funding_label": "Funding Coverage",
@@ -302,8 +358,6 @@ if "lang" not in st.session_state:
     st.session_state.lang = "BM"
 if "high_contrast" not in st.session_state:
     st.session_state.high_contrast = False
-if "voice_captured" not in st.session_state:
-    st.session_state.voice_captured = ""
 
 def generate_audio_player(text_to_speak, lang_code="ms"):
     try:
@@ -349,7 +403,7 @@ custom_css = f"""
         border: 2px solid {border_color};
         border-radius: 12px;
         padding: 22px;
-        margin-bottom: 20px;
+        margin-bottom: 12px;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }}
     .badge-oku {{
@@ -367,6 +421,19 @@ custom_css = f"""
         border-radius: 20px;
         font-size: 0.85rem;
     }}
+    .apply-link-btn {{
+        display: inline-block;
+        background-color: #0284C7;
+        color: white !important;
+        padding: 10px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 10px;
+    }}
+    .apply-link-btn:hover {{
+        background-color: #0369A1;
+    }}
     .stButton>button {{
         background-color: {accent_color} !important;
         color: white !important;
@@ -380,7 +447,7 @@ custom_css = f"""
 st.markdown(custom_css, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 4. SIDEBAR & WORKING VOICE INPUT INTEGRATION
+# 4. SIDEBAR & VOICE INPUT INTEGRATION
 # ---------------------------------------------------------
 with st.sidebar:
     st.image("https://img.icons8.com/illustrations/100/graduation-cap.png", width=80)
@@ -402,9 +469,7 @@ with st.sidebar:
 
     student_name = st.text_input(t["student_name_label"], value="Ahmad bin Zulkifli")
 
-    # Native Functional Web Speech API Widget
     st.markdown(f"**{t['voice_nav_title']}**")
-    
     voice_js = """
     <div style="text-align: center; margin-bottom: 10px;">
         <button id="listenBtn" onclick="runSpeech()" style="background-color:#0284C7; color:white; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;">
@@ -465,14 +530,13 @@ with st.sidebar:
     btn_search = st.button(t["btn_generate"], use_container_width=True)
 
 # ---------------------------------------------------------
-# 5. MAIN CONTENT & GUARANTEED SEARCH EXECUTION
+# 5. MAIN CONTENT & RESULTS
 # ---------------------------------------------------------
 st.title(t["title"])
 st.caption(t["subtitle"])
 st.markdown(f"<span class='badge-oku'>{t['badge_oku']}</span>", unsafe_allow_html=True)
 st.divider()
 
-# Compute Match List Dynamically
 matched_list = []
 for item in scholarships_data:
     state_match = "All States" in item["states"] or candidate_state in item["states"]
@@ -494,7 +558,7 @@ for item in scholarships_data:
     if state_match and income_match and course_match and oku_match and grade_match:
         matched_list.append(item)
 
-# Header Metrics Bar
+# Top Bar Summary
 c1, c2, c3, c4 = st.columns(4)
 with c1:
     st.metric(t["matched_count"], f"{len(matched_list)} / 174")
@@ -510,17 +574,13 @@ st.divider()
 if btn_search:
     st.success(f"✅ Carian Dikemaskini! Padanan Biasiswa Ditemui Bagi Keputusan SPM: {total_as}A, {total_credits} Kredit, {total_passes} Lulus.")
 
-# Audio Readout
 if matched_list:
     col_tts1, col_tts2 = st.columns([1, 3])
     with col_tts1:
         if st.button(t["tts_button"]):
-            summary_text = f"Salam {student_name}, carian mendapati {len(matched_list)} program bantuan kewangan yang padan dengan profil anda. "
-            for s in matched_list[:3]:
-                summary_text += f"{s['name']} oleh {s['provider']}. "
+            summary_text = f"Salam {student_name}, carian mendapati {len(matched_list)} program bantuan kewangan yang padan dengan profil anda."
             generate_audio_player(summary_text, lang_code="ms" if st.session_state.lang == "BM" else "en")
 
-# List Results Output
 st.subheader(t["results_header"])
 
 if not matched_list:
@@ -559,10 +619,10 @@ else:
             <p><strong>{t['funding_label']}:</strong> {item['funding_details']}</p>
             <p><strong>{t['courses_label']}:</strong> {', '.join(item['courses'])}</p>
             <p style="color: #DC2626; font-weight: bold;">⏳ {t['deadline_label']}: {item['deadline']}</p>
+            <a href="{item['url']}" target="_blank" class="apply-link-btn">🔗 {t['apply_button']}</a>
         </div>
         """
         st.markdown(card_html, unsafe_allow_html=True)
-        st.markdown(f"[{t['apply_button']}]({item['url']})", unsafe_allow_html=True)
         st.write("")
 
 st.divider()
